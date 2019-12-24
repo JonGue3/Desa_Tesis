@@ -10,4 +10,15 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    //Metodo que obtiene usuario mediante el nombre de usuario
+    public UserEntity getUserByUserName(String username){
+        UserEntity userEntity = new UserEntity();
+      try{
+        userEntity= userRepository.findByUsername(username);
+    }catch (Exception e){
+        e.printStackTrace();
+    }
+    return  userEntity;
+    }
 }
