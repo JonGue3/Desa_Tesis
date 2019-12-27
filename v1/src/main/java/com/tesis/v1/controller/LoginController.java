@@ -12,4 +12,19 @@ public class LoginController {
         modelAndView.setViewName("login");
         return modelAndView;
     }
+
+    @GetMapping("/forgotPassword")
+    ModelAndView forgotPassword() {
+        ModelAndView modelAndView= new ModelAndView();
+        modelAndView.setViewName("forgotPassword");
+        return modelAndView;
+    }
+
+    @GetMapping("/createNewUser")
+    ModelAndView createNewUser() {
+        ModelAndView modelAndView= new ModelAndView();
+        modelAndView.setViewName("createNewUser");
+        return modelAndView;
+    }
+
 }
