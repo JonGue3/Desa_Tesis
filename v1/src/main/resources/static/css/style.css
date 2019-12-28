@@ -6955,6 +6955,12 @@ body.mini-navbar.fixed-sidebar .logo-element {
     margin-bottom: 0;
 }
 
+.form-login {
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+}
+
 .contact-box .contact-box-footer {
     text-align: center;
     background-color: #ffffff;
