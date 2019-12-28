@@ -3,6 +3,7 @@ package com.tesis.v1.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import java.util.Calendar;
 
 @Entity
 @Table(name = "T_USER")
@@ -27,6 +28,10 @@ public class UserEntity {
     @Column(name = "EMAIL")
     private String email;
 
+    @Column(name = "BIRTHDAY")
+    private Calendar birthday;
+
+
     @ManyToOne
     @JoinColumn(name = "ID_USER_STATUS")
     private UserStatusEntity userStatusEntity;
@@ -35,16 +40,22 @@ public class UserEntity {
     @JoinColumn (name = "ID_PROFILE")
     private ProfileEntity profileEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_GENDER")
+    private  GenderEntity genderEntity;
+
     public UserEntity() {
     }
 
-    public UserEntity(String fullName, String username, String password, String email, UserStatusEntity userStatusEntity, ProfileEntity profileEntity) {
+    public UserEntity(String fullName, String username, String password, String email, Calendar birthday, UserStatusEntity userStatusEntity, ProfileEntity profileEntity, GenderEntity genderEntity) {
         this.fullName = fullName;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.birthday = birthday;
         this.userStatusEntity = userStatusEntity;
         this.profileEntity = profileEntity;
+        this.genderEntity = genderEntity;
     }
 
     public long getIdUser() {
@@ -87,6 +98,14 @@ public class UserEntity {
         this.email = email;
     }
 
+    public Calendar getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Calendar birthday) {
+        this.birthday = birthday;
+    }
+
     public UserStatusEntity getUserStatusEntity() {
         return userStatusEntity;
     }
@@ -103,6 +122,14 @@ public class UserEntity {
         this.profileEntity = profileEntity;
     }
 
+    public GenderEntity getGenderEntity() {
+        return genderEntity;
+    }
+
+    public void setGenderEntity(GenderEntity genderEntity) {
+        this.genderEntity = genderEntity;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -111,8 +138,10 @@ public class UserEntity {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", birthday=" + birthday +
                 ", userStatusEntity=" + userStatusEntity +
                 ", profileEntity=" + profileEntity +
+                ", genderEntity=" + genderEntity +
                 '}';
     }
 }
