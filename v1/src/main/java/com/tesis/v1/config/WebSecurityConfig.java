@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/font-awesome/**","/js/**");
+        web.ignoring().antMatchers("/font-awesome/**","/js/**", "/static/**", "/error");
     }
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
