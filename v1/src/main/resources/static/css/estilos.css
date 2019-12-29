@@ -7,3 +7,20 @@
 .tittle-form {
     padding-bottom: 20px;
 }
+
+.ibox-content-forgotPassword {
+    background-color: #ffffff;
+    color: inherit;
+    padding: 20px 30px 70px 20px;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0;
+    border-radius: 5px;
+}
+
+.forgotPasswordBox {
+    max-width: 490px;
+    margin: 0 auto;
+    padding: 130px 15px 15px 15px;
+}
