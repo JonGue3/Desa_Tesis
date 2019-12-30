@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/headerLogin :: header-css"/>
+</head>
+<body class="gray-bg"
+      th:style="'background: url(/img/tecleandoLogin.jpg) no-repeat center center fixed;background-size: cover;'">
+<div class="middle-box text-center loginscreen animated fadeInDown" style="width: 400px">
+
+    <div class="form-register">
+        <h3 class="tittle-form">Creación Usuario</h3>
+        <form class="m-t" role="form" th:action="@{/..}" method="post">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nombre de Usuario" required="true" name="username">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nombre Completo" required="true" name="fullName">
+            </div>
+            <div class="form-group">
+                <select  class="form-control"   th:object="${genderEntityList}"  th:name="genderEntity" required="true" name="genderEntity">
+                    <option value="">Seleccione</option>
+                    <option th:each="genderList : ${genderEntityList}"
+                            th:text=" ${genderList.description}"
+                            th:value="${genderList.idGender}"
+                    ></option>
+                    </select>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Contraseña" required="true" name="password">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Repita la Contraseña " required="true" name="">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Correo" required="true" name="email">
+            </div>
+            <!--Falta agregar jquery o estilo de calendario a usar-->
+            <div class="form-group">
+                <input type="date" class="form-control" placeholder="Fecha de Nacimiento" required="true" name="birthday">
+            </div>
+
+            <button type="submit" class="btn btn-primary block registerNewUser-right m-b">Enviar</button>
+            <a class="btn btn-primary block registerNewUser-left m-b" th:href="@{/login}">Cancelar</a>
+        </form>
+    </div>
+</div>
+</body>
+<div th:replace="fragments/footerLogin :: footer-js"/>
+</html>
