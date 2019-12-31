@@ -19,7 +19,7 @@
                 <input type="text" class="form-control" placeholder="Nombre Completo" required="true" name="fullName">
             </div>
             <div class="form-group">
-                <select  class="form-control"  th:object="${genderEntityList}" th:name="genderEntity" required="true" name="genderEntity">
+                <select  class="form-control"  th:object="${genderEntityList}" th:name="genderEntity" required="true" >
                     <option value="">Seleccione</option>
                     <option th:each="genderList : ${genderEntityList}"
                             th:text=" ${genderList.description}"
