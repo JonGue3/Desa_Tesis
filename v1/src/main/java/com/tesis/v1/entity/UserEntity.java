@@ -1,9 +1,11 @@
 package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "T_USER")
@@ -29,8 +31,8 @@ public class UserEntity {
     private String email;
 
     @Column(name = "BIRTHDAY")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar birthday;
-
 
     @ManyToOne
     @JoinColumn(name = "ID_USER_STATUS")

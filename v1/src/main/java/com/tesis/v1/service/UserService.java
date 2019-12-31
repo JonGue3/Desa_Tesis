@@ -4,6 +4,7 @@ import com.tesis.v1.entity.UserEntity;
 import com.tesis.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,8 @@ public class UserService {
     }
 
     public UserEntity saveUser (UserEntity userEntity) {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
+        userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         try {
            userEntity = userRepository.save(userEntity);
         } catch (Exception e) {
