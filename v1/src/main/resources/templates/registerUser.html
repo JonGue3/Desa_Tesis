@@ -10,8 +10,8 @@
 <div class="middle-box text-center loginscreen animated fadeInDown" style="width: 400px">
 
     <div class="form-register">
-        <h3 class="tittle-form">Creación Usuario</h3>
-        <form class="m-t" role="form" th:action="@{/..}" method="post">
+        <h3 class="tittle-form">Registro</h3>
+        <form class="m-t" role="form" th:action="@{/saveUser}" th:object="${userEntity}" method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nombre de Usuario" required="true" name="username">
             </div>
@@ -19,7 +19,7 @@
                 <input type="text" class="form-control" placeholder="Nombre Completo" required="true" name="fullName">
             </div>
             <div class="form-group">
-                <select  class="form-control"   th:object="${genderEntityList}"  th:name="genderEntity" required="true" name="genderEntity">
+                <select  class="form-control"  th:object="${genderEntityList}" th:name="genderEntity" required="true" name="genderEntity">
                     <option value="">Seleccione</option>
                     <option th:each="genderList : ${genderEntityList}"
                             th:text=" ${genderList.description}"
