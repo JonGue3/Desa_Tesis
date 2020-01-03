@@ -39,3 +39,13 @@
     background-color: white;
     border-radius: 5px;
 }
+
+input.parsley-error {
+    border: 1px solid red;
+}
+
+.parsley-errors-list{
+    list-style: none;
+    color: red;
+}
+

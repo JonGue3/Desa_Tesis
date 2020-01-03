@@ -11,7 +11,7 @@
 
     <div class="form-register">
         <h3 class="tittle-form">Registro</h3>
-        <form class="m-t" role="form" th:action="@{/saveUser}" th:object="${userEntity}" method="post">
+        <form class="m-t" role="form"  data-parsley-validate="true" th:action="@{/saveUser}" th:object="${userEntity}" method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nombre de Usuario" required="true" name="username">
             </div>
@@ -28,10 +28,10 @@
                     </select>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Contraseña" required="true" name="password">
+                <input type="password" class="form-control" id="password" placeholder="Contraseña" required="true" name="password">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="Repita la Contraseña " required="true" name="">
+                <input type="password" class="form-control" data-parsley-equalto="#password" placeholder="Repita la Contraseña " required="true" name="">
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Correo" required="true" name="email">
