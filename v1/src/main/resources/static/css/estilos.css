@@ -40,6 +40,12 @@
     border-radius: 5px;
 }
 
+.logoSize{
+    margin-bottom: 53px;
+    margin-top: 42px;
+    width: 300px;
+}
+
 input.parsley-error {
     border: 1px solid red;
 }
