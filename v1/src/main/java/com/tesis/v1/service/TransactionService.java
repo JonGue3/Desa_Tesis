@@ -1,8 +1,8 @@
 package com.tesis.v1.service;
 
-import com.tesis.v1.entity.MenuEntity;
+import com.tesis.v1.entity.TransactionEntity;
 import com.tesis.v1.entity.UserEntity;
-import com.tesis.v1.repository.MenuRepository;
+import com.tesis.v1.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,25 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MenuService {
+public class TransactionService {
 
     @Autowired
-    private MenuRepository menuRepository;
+    private TransactionRepository transactionRepository;
 
     @Autowired
     private UserService userService;
 
-    public List<MenuEntity> getMenuByIdProfile() {
-        List<MenuEntity> menuEntityList = new ArrayList<>();
+    public List<TransactionEntity> getTransactionByIdProfile () {
+        List<TransactionEntity> transactionEntityList = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         UserEntity userEntity = null;
         try {
             userEntity = userService.getUserByUserName(currentPrincipalName);
-            menuEntityList = menuRepository.getMenuEntitiesByTransactionEntity_ProfileEntitySet(userEntity.getProfileEntity());
+            transactionEntityList = transactionRepository.getTransactionEntitiesByProfileEntitySet(userEntity.getProfileEntity());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return menuEntityList;
+        return transactionEntityList;
     }
 }

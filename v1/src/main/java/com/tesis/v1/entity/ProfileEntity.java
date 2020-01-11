@@ -3,6 +3,8 @@ package com.tesis.v1.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_PROFILE")
@@ -15,6 +17,9 @@ public class ProfileEntity {
 
     @Column(name = "DESCRIPTION")
     private String description;
+
+    @ManyToMany(mappedBy = "profileEntitySet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 
     public ProfileEntity() {
     }
@@ -37,6 +42,14 @@ public class ProfileEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<TransactionEntity> getTransactionEntitySet() {
+        return transactionEntitySet;
+    }
+
+    public void setTransactionEntitySet(Set<TransactionEntity> transactionEntitySet) {
+        this.transactionEntitySet = transactionEntitySet;
     }
 
     @Override

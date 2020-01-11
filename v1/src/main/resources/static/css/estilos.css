@@ -55,3 +55,8 @@ input.parsley-error {
     color: red;
 }
 
+.navbar-header-welcome {
+    margin-left: 250px;
+    margin-right: 150px;
+}
+
