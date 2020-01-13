@@ -8,11 +8,11 @@
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu" th:object="${transactionEntityList}" th:name="transactionEntity" >
                     <li class="nav-header">
-                        <div class="dropdown profile-element">
+                        <div class="dropdown profile-element" th:object="${userEntity}">
                             <img alt="image" class="rounded-circle" src="../static/img/profile_small.jpg"/>
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="block m-t-xs font-bold">David Williams</span>
-                                <span class="text-muted text-xs block">Art Director <b class="caret"></b></span>
+                                <span class="block m-t-xs font-bold" th:text=" ${userEntity.fullName}"></span>
+                                <!--<span class="text-muted text-xs block">Art Director <b class="caret"></b></span>-->
                             </a>
                             <ul class="dropdown-menu animated fadeInRight m-t-xs">
                                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>

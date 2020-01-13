@@ -20,13 +20,9 @@ public class TransactionService {
     @Autowired
     private UserService userService;
 
-    public List<TransactionEntity> getTransactionByIdProfile () {
+    public List<TransactionEntity> getTransactionByIdProfile (UserEntity userEntity) {
         List<TransactionEntity> transactionEntityList = new ArrayList<>();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        UserEntity userEntity = null;
         try {
-            userEntity = userService.getUserByUserName(currentPrincipalName);
             transactionEntityList = transactionRepository.getTransactionEntitiesByProfileEntitySet(userEntity.getProfileEntity());
         } catch (Exception e) {
             e.printStackTrace();

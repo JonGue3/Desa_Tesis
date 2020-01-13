@@ -9,6 +9,8 @@ import com.tesis.v1.service.MenuService;
 import com.tesis.v1.service.TransactionService;
 import com.tesis.v1.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,12 +86,17 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         List<MenuEntity> menuEntityList = new ArrayList<>();
         List<TransactionEntity> transactionEntityList = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserEntity userEntity = null;
         try {
-            transactionEntityList = transactionService.getTransactionByIdProfile();
-            menuEntityList = menuService.getMenuByIdProfile();
+            userEntity = userService.getUserByUserName(currentPrincipalName);
+            transactionEntityList = transactionService.getTransactionByIdProfile(userEntity);
+            menuEntityList = menuService.getMenuByIdProfile(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
         modelAndView.addObject("menuEntityList", menuEntityList);
         modelAndView.setViewName("dashboard_2");

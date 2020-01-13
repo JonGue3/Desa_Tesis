@@ -20,13 +20,11 @@ public class MenuService {
     @Autowired
     private UserService userService;
 
-    public List<MenuEntity> getMenuByIdProfile() {
+    public List<MenuEntity> getMenuByIdProfile(UserEntity userEntity) {
         List<MenuEntity> menuEntityList = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        UserEntity userEntity = null;
         try {
-            userEntity = userService.getUserByUserName(currentPrincipalName);
             menuEntityList = menuRepository.getMenuEntitiesByTransactionEntity_ProfileEntitySet(userEntity.getProfileEntity());
         } catch (Exception e) {
             e.printStackTrace();
