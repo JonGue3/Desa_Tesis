@@ -32,10 +32,10 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping("/forgotPassword")
-    ModelAndView forgotPassword() {
+    @GetMapping("/dashboard_2")
+    ModelAndView dashboard_2() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("forgotPassword");
+        modelAndView.setViewName("dashboard_2");
         return modelAndView;
     }
 

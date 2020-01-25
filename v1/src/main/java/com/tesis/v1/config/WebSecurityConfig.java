@@ -29,7 +29,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers(resources).permitAll()
                 .antMatchers("/","/index").permitAll()
-                .antMatchers("/forgotPassword").permitAll()
+                .antMatchers("/dashboard_2").permitAll()
                 .antMatchers("/registerUser").permitAll()
                 .antMatchers("/saveUser").permitAll()
                 .anyRequest().authenticated()
@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
                 .formLogin()
                 .loginPage("/login").permitAll()
                 .permitAll()
-                .defaultSuccessUrl("/forgotPassword")
+                .defaultSuccessUrl("/dashboard_2")
                 .failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")
@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/font-awesome/**","/js/**", "/static/**", "/error");
+        web.ignoring().antMatchers("/font-awesome/**", "/static/**", "/error");
     }
 
     BCryptPasswordEncoder bCryptPasswordEncoder;
