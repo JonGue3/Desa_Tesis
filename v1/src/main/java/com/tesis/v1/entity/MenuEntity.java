@@ -19,12 +19,18 @@ public class MenuEntity {
     @Column(name = "MENU_URL")
     private String menuUrl;
 
+    @ManyToOne
+    @JoinColumn(name = "ID_TRANSACTION")
+    private TransactionEntity transactionEntity;
+
     public MenuEntity() {
     }
 
-    public MenuEntity(String description, String menuUrl) {
+    public MenuEntity(long idMenu, String description, String menuUrl, TransactionEntity transactionEntity) {
+        this.idMenu = idMenu;
         this.description = description;
         this.menuUrl = menuUrl;
+        this.transactionEntity = transactionEntity;
     }
 
     public long getIdMenu() {
@@ -51,12 +57,21 @@ public class MenuEntity {
         this.menuUrl = menuUrl;
     }
 
+    public TransactionEntity getTransactionEntity() {
+        return transactionEntity;
+    }
+
+    public void setTransactionEntity(TransactionEntity transactionEntity) {
+        this.transactionEntity = transactionEntity;
+    }
+
     @Override
     public String toString() {
         return "MenuEntity{" +
                 "idMenu=" + idMenu +
                 ", description='" + description + '\'' +
                 ", menuUrl='" + menuUrl + '\'' +
+                ", transactionEntity=" + transactionEntity +
                 '}';
     }
 }
