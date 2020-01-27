@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_PROYECT")
@@ -30,6 +32,9 @@ public class ProjectEntity {
 
     @Column(name = "ENDING_DATE")
     private Calendar endingDate;
+
+    @ManyToMany(mappedBy = "projectEntitySet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<UserEntity> userEntitySet = new HashSet<>();
 
     public ProjectEntity() {
     }
@@ -88,6 +93,14 @@ public class ProjectEntity {
 
     public void setEndingDate(Calendar endingDate) {
         this.endingDate = endingDate;
+    }
+
+    public Set<UserEntity> getUserEntitySet() {
+        return userEntitySet;
+    }
+
+    public void setUserEntitySet(Set<UserEntity> userEntitySet) {
+        this.userEntitySet = userEntitySet;
     }
 
     @Override

@@ -1,13 +1,7 @@
 package com.tesis.v1.controller;
 
-import com.tesis.v1.entity.GenderEntity;
-import com.tesis.v1.entity.MenuEntity;
-import com.tesis.v1.entity.TransactionEntity;
-import com.tesis.v1.entity.UserEntity;
-import com.tesis.v1.service.GenderService;
-import com.tesis.v1.service.MenuService;
-import com.tesis.v1.service.TransactionService;
-import com.tesis.v1.service.UserService;
+import com.tesis.v1.entity.*;
+import com.tesis.v1.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +30,9 @@ public class LoginController {
 
     @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping("/login")
     ModelAndView modelAndView() {
@@ -86,16 +83,19 @@ public class LoginController {
         ModelAndView modelAndView = new ModelAndView();
         List<MenuEntity> menuEntityList = new ArrayList<>();
         List<TransactionEntity> transactionEntityList = new ArrayList<>();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         UserEntity userEntity = null;
         try {
             userEntity = userService.getUserByUserName(currentPrincipalName);
+            projectEntityList = projectService.getProjectsByUser(userEntity);
             transactionEntityList = transactionService.getTransactionByIdProfile(userEntity);
             menuEntityList = menuService.getMenuByIdProfile(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        modelAndView.addObject("projectEntityList", projectEntityList);
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
         modelAndView.addObject("menuEntityList", menuEntityList);

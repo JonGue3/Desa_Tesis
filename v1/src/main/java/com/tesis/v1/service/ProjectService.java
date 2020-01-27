@@ -1,12 +1,28 @@
 package com.tesis.v1.service;
 
+import com.tesis.v1.entity.ProjectEntity;
+import com.tesis.v1.entity.UserEntity;
 import com.tesis.v1.repository.ProfileRepository;
+import com.tesis.v1.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProjectService {
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProjectRepository projectRepository;
+
+    public List<ProjectEntity> getProjectsByUser (UserEntity userEntity) {
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
+        try {
+            projectEntityList = projectRepository.getProjectEntitiesByUserEntitySet(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectEntityList;
+    }
 }

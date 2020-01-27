@@ -1,11 +1,15 @@
 package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_USER")
@@ -45,6 +49,12 @@ public class UserEntity {
     @ManyToOne
     @JoinColumn(name = "ID_GENDER")
     private  GenderEntity genderEntity;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "USER_PROYECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
+                inverseJoinColumns = @JoinColumn(name = "ID_PROYECT", referencedColumnName = "ID_PROYECT"))
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<ProjectEntity> projectEntitySet = new HashSet<>();
 
     public UserEntity() {
     }
@@ -130,6 +140,14 @@ public class UserEntity {
 
     public void setGenderEntity(GenderEntity genderEntity) {
         this.genderEntity = genderEntity;
+    }
+
+    public Set<ProjectEntity> getProjectEntitySet() {
+        return projectEntitySet;
+    }
+
+    public void setProjectEntitySet(Set<ProjectEntity> projectEntitySet) {
+        this.projectEntitySet = projectEntitySet;
     }
 
     @Override
