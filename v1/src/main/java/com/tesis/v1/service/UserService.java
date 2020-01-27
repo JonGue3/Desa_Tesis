@@ -17,7 +17,7 @@ public class UserService {
     public UserEntity getUserByUserName(String username){
         UserEntity userEntity = new UserEntity();
       try{
-        userEntity= userRepository.findByUsername(username);
+        userEntity= userRepository.findByUsername(username.toLowerCase());
       }catch (Exception e){
         e.printStackTrace();
       }
@@ -28,6 +28,7 @@ public class UserService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         try {
+            userEntity.setUsername(userEntity.getUsername().toLowerCase());
            userEntity = userRepository.save(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
