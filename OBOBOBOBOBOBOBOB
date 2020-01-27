@@ -1,0 +1,120 @@
+[33mcommit e1682eadd7494fddd3e090373360d2ef769c39ff[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: JonGue3 <jonatanguerrerot.11@gmail.com>
+Date:   Mon Jan 27 08:17:02 2020 -0400
+
+    Vista con proyectos (Version estable)
+
+[33mcommit 8bd137a99b69b0ac24a189f5b5bcd486d827c55b[m
+Author: JonGue3 <jonatanguerrerot.11@gmail.com>
+Date:   Mon Jan 13 09:02:20 2020 -0400
+
+    footerDashboard fragment y full name en el sideBar
+
+[33mcommit af870970ed19f77fab2c37eb917ed25648798492[m
+Author: JonGue3 <jonatanguerrerot.11@gmail.com>
+Date:   Sat Jan 11 17:36:37 2020 -0400
+
+    Redireccion a menu, headerDashboard, sideBar con opciones traidas de bd
+
+[33mcommit 2e000f985d87f9f23a7cb37ebd223bb666635780[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Mon Jan 6 13:35:12 2020 -0400
+
+    Se acomodo el logo a un logo limpio en login
+
+[33mcommit 05cddab082eba86726c78467ac2e3c6cbd343aa2[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Fri Jan 3 01:50:34 2020 -0400
+
+    Se agrego parsley y  todas las validaciones de login tambien
+
+[33mcommit f7b5b74dd6339a867fc22f6f343b41bc4bc69404[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Tue Dec 31 10:53:54 2019 -0400
+
+    Transaccion register, se agg encrypt password y se arreglo el problema de birthday
+
+[33mcommit 746b9bc1b443bba28c8bfdf88db17d4512fa8a6e[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Mon Dec 30 22:13:53 2019 -0400
+
+    Actualizacion de permitir al metodo de registro de usuario al spring security y borrar name extra del select
+
+[33mcommit 2e9980c0ea337e43256b92687d7f80bae07c8316[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Mon Dec 30 22:00:57 2019 -0400
+
+    Avance en la transaccion de registro, inconcluso por error con el genderList
+
+[33mcommit a4ac264c5cd3cf07e3b87c5a7b2ca10d97a67b1e[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Mon Dec 30 02:30:22 2019 -0400
+
+    Creada pantalla de registro de usuario, creado servicio para obtenerse los generos, redireccionamiento a creacion de usuario,agregado algunos estilos css para creacion de usuario.
+
+[33mcommit 0780cdad4d09466fd3b508e890eb2988a403f2a0[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Sun Dec 29 17:13:56 2019 -0400
+
+    Cambios en el estilo de recuperar contrasenia caja blanca y de mayor tamanio
+
+[33mcommit a0cea42e29411cbbd14ae042573f4e2ffa9907e0[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Sat Dec 28 11:23:16 2019 -0400
+
+    Form con background vista del login
+
+[33mcommit 138f95662af22a224964429549c48a6275fed307[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Sat Dec 28 09:29:48 2019 -0400
+
+    Se arreglo el problema de redireccionamiento en el login
+
+[33mcommit aaff4735d55a9f6c0abcbdbe0fa39136205ec320[m
+Merge: 7c779f4 73fec6b
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Fri Dec 27 21:35:47 2019 -0400
+
+    Merge branch 'master' of https://github.com/JonGue3/Desa_Tesis
+
+[33mcommit 7c779f4ded5b0dcc7138a56ad52129a384fe7148[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Fri Dec 27 21:32:48 2019 -0400
+
+    login con spring security (falta arreglar redireccion)
+
+[33mcommit 73fec6b7109976b8d5c1d6f4a77a3a6aceae66f5[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Fri Dec 27 18:58:22 2019 -0400
+
+    Se agrega entity de genero repositorio y nuevo background de login
+
+[33mcommit 4ca15e35ee85f827e44ff3edda0b170c060e4e29[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Fri Dec 27 02:11:56 2019 -0400
+
+    Se agrega vista de login y recuperar contrasenia metodos de  recuperar contrasenia y creacion de usuario se agrega logo y fondo se agrega permisos de spring security a vista de creacion de usuario y recuperar contrasenia se agrega fragmentos para login con css y js se agrega algunas clases css para login.
+
+[33mcommit 142db2d88ac7e328919163b904476a7b49a7c6bd[m
+Author: Gerardo Montero <monterog24@gmail.com>
+Date:   Tue Dec 24 15:34:00 2019 -0400
+
+    Se agrega Spring security y metodos de obttencion de usuario por username y perfiles
+
+[33mcommit 9a0e9f661fd942b2d3f5e5dc0750b54cf9a41a66[m
+Author: JonGue3 <jonatanguerrerot.11@gmail.com>
+Date:   Fri Nov 22 10:36:53 2019 -0400
+
+    Elimino entities sobrantes
+
+[33mcommit cf5355436594e147eeb9515abaefa8c2f4e2f040[m
+Author: Jonatan Alejandro JG. Guerrero Torres <jonatan.guerrero@tcs.local>
+Date:   Fri Nov 22 09:54:00 2019 -0400
+
+    Creando Proyecto
+
+[33mcommit 78be6b01072bc835384ee3af9ca4f9a1aca878d5[m
+Author: Jonatan Guerrero <jonatanguerrerot.11@gmail.com>
+Date:   Fri Nov 22 09:15:53 2019 -0400
+
+    Initial commit
