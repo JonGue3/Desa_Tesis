@@ -25,4 +25,13 @@ public class ProjectService {
         }
         return projectEntityList;
     }
+
+    public ProjectEntity saveProject (ProjectEntity projectEntity) {
+        try {
+            projectEntity = projectRepository.save(projectEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectEntity;
+    }
 }

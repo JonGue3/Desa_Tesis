@@ -1,11 +1,16 @@
 package com.tesis.v1.service;
 
+import com.tesis.v1.entity.ProfileEntity;
 import com.tesis.v1.entity.UserEntity;
+import com.tesis.v1.entity.UserStatusEntity;
 import com.tesis.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -32,6 +37,26 @@ public class UserService {
            userEntity = userRepository.save(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        return userEntity;
+    }
+
+    public List<UserEntity> getUsersByProfile (ProfileEntity profileEntity, UserStatusEntity userStatusEntity) {
+        List<UserEntity> userEntityList = new ArrayList<>();
+        try {
+            userEntityList = userRepository.findByProfileEntityAndUserStatusEntity(profileEntity, userStatusEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntityList;
+    }
+
+    public UserEntity getUserById (long idUser) {
+        UserEntity userEntity = null;
+        try {
+            userEntity = userRepository.findByIdUser(idUser);
+        } catch (Exception e) {
+
         }
         return userEntity;
     }

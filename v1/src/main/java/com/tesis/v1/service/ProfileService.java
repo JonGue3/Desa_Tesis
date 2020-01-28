@@ -24,4 +24,14 @@ public class ProfileService {
         }
     return profileEntityList;
     }
+
+    public ProfileEntity getProfileById (long idProfile) {
+        ProfileEntity profileEntity = null;
+        try {
+            profileEntity = profileRepository.findByIdProfile(idProfile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return profileEntity;
+    }
 }

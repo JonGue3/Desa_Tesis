@@ -1,6 +1,7 @@
 package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -28,9 +29,11 @@ public class ProjectEntity {
     private Integer finishedActivities;
 
     @Column(name = "START_DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar startDate;
 
     @Column(name = "ENDING_DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar endingDate;
 
     @ManyToMany(mappedBy = "projectEntitySet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
