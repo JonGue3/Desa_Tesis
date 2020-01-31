@@ -6,10 +6,9 @@
 <div th:fragment="sideBarMenu">
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu" th:object="${transactionEntityList}" th:name="transactionEntity">
+            <ul class="nav metismenu" id="side-menu" th:object="${session.transactionEntityList}" th:name="transactionEntity">
                 <li class="nav-header">
                     <div class="dropdown profile-element" th:object="${userEntity}">
-                        <img alt="image" class="rounded-circle" src="../static/img/profile_small.jpg"/>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold" th:text=" ${userEntity.fullName}"></span>
                             <!--<span class="text-muted text-xs block">Art Director <b class="caret"></b></span>-->
@@ -26,7 +25,7 @@
                         IN+
                     </div>
                 </li>
-                <li class="active" th:each="transactionList : ${transactionEntityList}">
+                <li class="active" th:each="transactionList : ${session.transactionEntityList}">
                     <!-- Admin-->
                     <a th:if="${userEntity.profileEntity.idProfile ==1}" href="#"><i class="fa fa-th-large"></i> <span
                             class="nav-label" th:text=" ${transactionList.description}"></span> <span
@@ -40,22 +39,22 @@
                             class="nav-label" th:text="${transactionList.description}"></span> <span
                             class="fa arrow"></span></a>
                     <!-- Admin-->
-                    <ul th:if="${userEntity.profileEntity.idProfile ==1}" class="nav nav-second-level" th:object="${menuEntityList}" th:name="menuEntity">
+                    <ul th:if="${userEntity.profileEntity.idProfile ==1}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
                         <li th:each="menuList : ${menuEntityList}"><a th:href="${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction}"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- Leader-->
-                    <ul th:if="${userEntity.profileEntity.idProfile ==2}" class="nav nav-second-level" th:object="${menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${menuEntityList}"><a th:href="${menuList.menuUrl}"
+                    <ul th:if="${userEntity.profileEntity.idProfile ==2}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
+                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction}"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- resource-->
-                    <ul th:if="${userEntity.profileEntity.idProfile ==3}"  class="nav nav-second-level" th:object="${menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${menuEntityList}"><a th:href="${menuList.menuUrl}"
+                    <ul th:if="${userEntity.profileEntity.idProfile ==3}"  class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
+                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu == 4 }"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>

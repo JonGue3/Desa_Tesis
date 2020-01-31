@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,9 +87,10 @@ public class LoginController {
     }
 
     @GetMapping("/getMenu")
-    ModelAndView getMenu() {
+    ModelAndView getMenu(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
         List<MenuEntity> menuEntityList = new ArrayList<>();
+
         List<TransactionEntity> transactionEntityList = new ArrayList<>();
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -102,6 +104,9 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        httpServletRequest.getSession().setAttribute("menuEntityList",menuEntityList);
+        httpServletRequest.getSession().setAttribute("transactionEntityList",transactionEntityList);
         modelAndView.addObject("projectEntityList", projectEntityList);
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
