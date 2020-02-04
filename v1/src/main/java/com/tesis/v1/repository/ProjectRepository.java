@@ -12,4 +12,6 @@ import java.util.Set;
 public interface ProjectRepository extends JpaRepository<ProjectEntity, Long> {
 
     List<ProjectEntity> getProjectEntitiesByUserEntitySet(UserEntity userEntity);
+
+    ProjectEntity findByProjectName(String projectName);
 }

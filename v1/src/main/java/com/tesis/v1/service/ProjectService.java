@@ -34,4 +34,14 @@ public class ProjectService {
         }
         return projectEntity;
     }
+
+    public ProjectEntity getProjectByName (String projectName) {
+        ProjectEntity projectEntity = null;
+        try {
+            projectEntity = projectRepository.findByProjectName(projectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectEntity;
+    }
 }

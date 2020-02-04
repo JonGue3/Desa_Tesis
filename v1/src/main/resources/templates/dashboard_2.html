@@ -91,7 +91,7 @@
                                         <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                                     </div>
                                 </div>-->
-                                <table class="table table-hover margin bottom">
+                                <table id="tableProjects" class="table table-hover margin bottom">
                                     <thead>
                                     <tr>
                                         <!--<th style="width: 1%" class="text-center">No.</th>-->
@@ -100,11 +100,10 @@
                                         <th class="text-center">Puntos Alcanzados</th>
                                         <th class="text-center">Fecha de Iniciaciòn</th>
                                         <th class="text-center">Fecha de Culminaciòn</th>
-
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="project : ${projectEntityList}">
+                                    <tr style="cursor:pointer" th:each="project : ${projectEntityList}">
                                         <!--<td class="text-center">1</td>-->
                                         <td th:text="${project.projectName}"></td>
                                         <td class="text-center" th:text="${project.totalActivities}"></td>
@@ -830,8 +829,21 @@
 
     </div>
 </div>
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
+
+        $('#tableProjects').on('click', 'tr', function () {
+            debugger;
+            var table = $('#tableProjects').DataTable();
+            $(this).toggleClass('selected');
+            var pos = table.row(this).index();
+            var row = table.row(pos).data();
+            var oData = table.rows('.selected').data();
+            var oDataInt = oData.length;
+            var data = table.row(this).data();
+            window.location.href = 'editProject/' + row[0];
+        });
+
         $('.chart').easyPieChart({
             barColor: '#f8ac59',
 //                scaleColor: false,

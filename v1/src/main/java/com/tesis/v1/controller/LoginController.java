@@ -107,6 +107,7 @@ public class LoginController {
 
         httpServletRequest.getSession().setAttribute("menuEntityList",menuEntityList);
         httpServletRequest.getSession().setAttribute("transactionEntityList",transactionEntityList);
+        httpServletRequest.getSession().setAttribute("userEntity",userEntity);
         modelAndView.addObject("projectEntityList", projectEntityList);
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);

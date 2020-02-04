@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/headerDashboard :: header-css"/>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragments/sideBarMenu :: sideBarMenu"/>
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="fragments/headerDashboard :: header-body"/>
+        <div class="row" >
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Editar Proyecto</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-register">
+                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveProject}" th:object="${projectEntity}" method="post">
+                                <div class="form-group">
+                                    <label class = "label-date">Nombre del Proyecto</label>
+                                    <input type="text" class="form-control" th:value="${projectEntity.projectName}" required="true" name="projectName">
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Puntos Totales</label>
+                                    <input type="text" class="form-control" th:value="${projectEntity.totalActivities}" required="true" name="totalActivities">
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Puntos Terminados</label>
+                                    <input type="text" class="form-control" th:value="${projectEntity.finishedActivities}" required="true" name="finishedActivities">
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Fecha de Inicio</label>
+                                    <input type="date" class="form-control"  th:text="${#dates.format(projectEntity.startDate.getTime(), 'dd/MM/yyyy')}" required="true" name="startDate">
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Fecha de Culminacion</label>
+                                    <input type="date" class="form-control"  th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}" required="true" name="endingDate">
+                                </div>
+                                <div class="form-group">
+                                    <select  class="form-control"  th:object="${userEntityList}" th:name="userEntity"  required="true" >
+                                        <option value="">Seleccione el Lider a asignar</option>
+                                        <option th:each="userList : ${userEntityList}"
+                                                th:text=" ${userList.fullName}"
+                                                th:value="${userList.idUser}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary block registerNewUser-right m-b" style="margin-top: 20px;">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/footerDashboard :: footer"/>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+</html>

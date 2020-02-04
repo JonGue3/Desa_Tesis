@@ -8,10 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -105,6 +102,20 @@ public class ProjectController {
             e.printStackTrace();
         }
         modelAndView.setViewName("login");
+        return modelAndView;
+    }
+
+    @GetMapping("/editProject/{projectName}")
+    public ModelAndView editProject (@PathVariable @Valid String projectName) {
+        ModelAndView modelAndView = new ModelAndView();
+        ProjectEntity projectEntity = null;
+        try {
+            projectEntity = projectService.getProjectByName(projectName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntity", projectEntity);
+        modelAndView.setViewName("editProject");
         return modelAndView;
     }
 }
