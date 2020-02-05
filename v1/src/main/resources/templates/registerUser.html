@@ -11,7 +11,8 @@
 
     <div class="form-register">
         <h3 class="tittle-form">Registro</h3>
-        <form class="m-t" role="form"  data-parsley-validate="true" th:action="@{/saveUser}" th:object="${userEntity}" method="post">
+        <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveUser}" th:object="${userEntity}"
+              method="post">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Nombre de Usuario" required="true" name="username">
             </div>
@@ -19,27 +20,44 @@
                 <input type="text" class="form-control" placeholder="Nombre Completo" required="true" name="fullName">
             </div>
             <div class="form-group">
-                <select  class="form-control"  th:object="${genderEntityList}" th:name="genderEntity" required="true" >
+                <select class="form-control" th:object="${genderEntityList}" th:name="genderEntity" required="true">
                     <option value="">Seleccione</option>
                     <option th:each="genderList : ${genderEntityList}"
                             th:text=" ${genderList.description}"
                             th:value="${genderList.idGender}"
                     ></option>
-                    </select>
+                </select>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" id="password" placeholder="Contraseña" required="true" name="password">
+                <input type="password" class="form-control" id="password" placeholder="Contraseña" required="true"
+                       name="password">
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" data-parsley-equalto="#password" placeholder="Repita la Contraseña " required="true" name="">
+                <input type="password" class="form-control" data-parsley-equalto="#password"
+                       placeholder="Repita la Contraseña " required="true" name="">
             </div>
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Correo" required="true" name="email">
             </div>
             <!--Falta agregar jquery o estilo de calendario a usar-->
             <div class="form-group" style="text-align: initial;">
-                <label class = "label-date">Fecha de Nacimiento</label>
-                <input type="date" class="form-control" placeholder="Fecha de Nacimiento" required="true" name="birthday">
+                <!--<label class = "label-date">Fecha de Nacimiento</label>-->
+                <!--<input type="date" class="form-control" placeholder="Fecha de Nacimiento" required="true" name="birthday">-->
+                <input type="text"
+                       data-parsley-required="true"
+                       style="cursor: pointer;text-align: center; width: 45%; background-color: white; font-size: 0.9rem; font-family: inherit"
+                       class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left"
+                       minlength="10"
+                       maxlength="10"
+                       th:readonly="true"
+                       th:name="birthday"
+                       id="birthdayDate"
+                       placeholder="Fecha Nacimiento"
+                       onclick="dateInput('birthdayDate')"
+
+                />
+                <span class="fa fa-calendar-o form-control-feedback left"
+                      style="font-size: 18px;left: 0px;height: 27px;top: 0;margin-top: 4px;padding-top: 4px;"> </span>
             </div>
 
             <button type="submit" class="btn btn-primary block registerNewUser-right m-b">Enviar</button>
