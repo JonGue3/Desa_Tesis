@@ -1,5 +1,6 @@
 package com.tesis.v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -20,6 +21,7 @@ public class TransactionEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "T_TRANSACTION_PROFILE", joinColumns = @JoinColumn(name = "ID_TRANSACTION",
             referencedColumnName = "ID_TRANSACTION"), inverseJoinColumns = @JoinColumn(name = "ID_PROFILE",

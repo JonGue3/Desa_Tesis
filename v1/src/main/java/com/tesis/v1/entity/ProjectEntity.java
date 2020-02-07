@@ -1,5 +1,6 @@
 package com.tesis.v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -36,7 +37,8 @@ public class ProjectEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Calendar endingDate;
 
-    @ManyToMany(mappedBy = "projectEntitySet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "projectEntitySet", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private Set<UserEntity> userEntitySet = new HashSet<>();
 
     public ProjectEntity() {

@@ -18,10 +18,13 @@
                     </div>
                     <div class="ibox-content">
                         <div class="form-register">
-                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveProject}" th:object="${projectEntity}" method="post">
+                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveEditProject}" th:object="${projectEntity}" method="post">
+                                <div class="form-group" hidden="hidden">
+                                    <input type="text" id="idProject" readonly="true" class="form-control" th:value="${projectEntity.idProject}" required="false" name="idProject">
+                                </div>
                                 <div class="form-group">
                                     <label class = "label-date">Nombre del Proyecto</label>
-                                    <input type="text" class="form-control" th:value="${projectEntity.projectName}" required="true" name="projectName">
+                                    <input type="text" id="projectName" readonly="true" class="form-control" th:value="${projectEntity.projectName}" required="false" name="projectName">
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Puntos Totales</label>
@@ -40,8 +43,23 @@
                                     <input type="date" class="form-control"  th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}" required="true" name="endingDate">
                                 </div>
                                 <div class="form-group">
-                                    <select  class="form-control"  th:object="${userEntityList}" th:name="userEntity"  required="true" >
-                                        <option value="">Seleccione el Lider a asignar</option>
+                                    <div id="divLiderActual">
+                                        <label class = "label-date">Lider Actual</label>
+                                        <div id="selectLiderActual">
+                                            <select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:name="userEntityLideresInProject" required="true" >
+                                                <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2}"
+                                                        th:text=" ${userList.fullName}"
+                                                        th:value="${userList.idUser}">
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <span class="fa fa-trash fa-2x" id="deleteIcon" style="cursor: pointer; float: left; margin: 5px;"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Lider a Agregar</label>
+                                    <select  class="form-control"  th:object="${userEntityList}" th:name="userEntity" required="false" >
+                                        <option value="0">Seleccione el Lider a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
                                                 th:value="${userList.idUser}">
@@ -59,8 +77,48 @@
     </div>
 </div>
 
-</div>
+<script>
+    $('#deleteIcon').on('click', function () {
+        debugger;
+        var lider = $('#lideres option:selected').val();
+        var projectName = $('#projectName').val();
+        var url = '/deleteLider';
+        var data = {
+            projectName : projectName,
+            lider : lider
+        }
+        $.ajax({
+            url : url,
+            contentType: "application/json",
+            type : 'post',
+            dataType: 'json',
+            data : JSON.stringify(data),
+            success : function (response) {
+                if (response.status === "SUCCESS") {
+                    window.location.href = projectName;
 
+                    //Actualizacion dinamica del select despues del delete
+                    /*var userEntities = Object.assign({}, response.data);
+                    // var userEntities = JSON.stringify(response.data);
+                    $('#selectLiderActual').hide();
+                    $('#divLiderActual').append(`<select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:object="${userEntities}" th:name="userEntity" required="true" >\n` +
+                        `                                                <option th:each="userList : ${userEntities}" \n` +
+                        `                                                        \n` +
+                        `                                                        >\n` +
+                        `                                                </option>`);
+
+                    $('#lideres').append(userEntities);
+                    $('#lideres').prop("","");*/
+                }
+                console.log('ss');
+            },
+            error : function () {
+                console.log("ERROR");
+            }
+        });
+
+    });
+</script>
 
 </body>
 </html>

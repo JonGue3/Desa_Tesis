@@ -1,5 +1,6 @@
 package com.tesis.v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -50,6 +51,7 @@ public class UserEntity {
     @JoinColumn(name = "ID_GENDER")
     private  GenderEntity genderEntity;
 
+    @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "USER_PROYECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
                 inverseJoinColumns = @JoinColumn(name = "ID_PROYECT", referencedColumnName = "ID_PROYECT"))

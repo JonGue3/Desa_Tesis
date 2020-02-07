@@ -1,6 +1,7 @@
 package com.tesis.v1.service;
 
 import com.tesis.v1.entity.ProfileEntity;
+import com.tesis.v1.entity.ProjectEntity;
 import com.tesis.v1.entity.UserEntity;
 import com.tesis.v1.entity.UserStatusEntity;
 import com.tesis.v1.repository.UserRepository;
@@ -59,5 +60,25 @@ public class UserService {
 
         }
         return userEntity;
+    }
+
+    public UserEntity saveUserWithoutEncryp (UserEntity userEntity) {
+        try {
+            userEntity.setUsername(userEntity.getUsername().toLowerCase());
+            userEntity = userRepository.save(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+
+    public List<UserEntity> getUsersByProfileAndNotInTheProject (ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity) {
+        List<UserEntity> userEntityList = new ArrayList<>();
+        try {
+            userEntityList = userRepository.findByProfileEntityAndUserStatusEntityAndProjectEntitySetNotContaining(profileEntity, userStatusEntity, projectEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntityList;
     }
 }

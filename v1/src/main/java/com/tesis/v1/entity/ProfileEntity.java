@@ -1,5 +1,6 @@
 package com.tesis.v1.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
@@ -18,6 +19,7 @@ public class ProfileEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "profileEntitySet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 
