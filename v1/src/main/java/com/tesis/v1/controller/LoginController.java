@@ -42,12 +42,12 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping("/dashboard_2")
-    ModelAndView dashboard_2() {
+    /*@GetMapping("/projects")
+    ModelAndView projects() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("dashboard_2");
+        modelAndView.setViewName("projects");
         return modelAndView;
-    }
+    }*/
 
     @GetMapping("/forgotPassword")
     ModelAndView forgotPassword() {
@@ -86,7 +86,7 @@ public class LoginController {
         return modelAndView;
     }
 
-    @GetMapping("/getMenu")
+    @GetMapping("/projects")
     ModelAndView getMenu(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
         List<MenuEntity> menuEntityList = new ArrayList<>();
@@ -112,7 +112,7 @@ public class LoginController {
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
         modelAndView.addObject("menuEntityList", menuEntityList);
-        modelAndView.setViewName("dashboard_2");
+        modelAndView.setViewName("projects");
         return modelAndView;
     }
 }

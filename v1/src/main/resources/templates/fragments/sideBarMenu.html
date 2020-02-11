@@ -40,21 +40,21 @@
                             class="fa arrow"></span></a>
                     <!-- Admin-->
                     <ul th:if="${session.userEntity.profileEntity.idProfile ==1}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${menuList.menuUrl}"
+                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction}"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- Leader-->
                     <ul th:if="${session.userEntity.profileEntity.idProfile ==2}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${menuList.menuUrl}"
+                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction}"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- resource-->
                     <ul th:if="${session.userEntity.profileEntity.idProfile ==3}"  class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${menuList.menuUrl}"
+                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu == 4 }"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>

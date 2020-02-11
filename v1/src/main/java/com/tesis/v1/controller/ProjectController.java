@@ -231,7 +231,7 @@ public class ProjectController {
         /*modelAndView.addObject("projectEntity", projectEntity);
         modelAndView.addObject("userEntityList", userEntityList);*/
         modelAndView.addObject("projectEntityList", projectEntityList1);
-        modelAndView.setViewName("dashboard_2");
+        modelAndView.setViewName("projects");
         return modelAndView;
     }
 }
