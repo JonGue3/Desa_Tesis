@@ -127,7 +127,7 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.setViewName("login");
+        modelAndView.setViewName("projects");
         return modelAndView;
     }
 

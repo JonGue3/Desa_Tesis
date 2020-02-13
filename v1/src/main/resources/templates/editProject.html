@@ -20,36 +20,65 @@
                         <div class="form-register">
                             <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveEditProject}" th:object="${projectEntity}" method="post">
                                 <div class="form-group" hidden="hidden">
-                                    <input type="text" id="idProject" readonly="true" class="form-control" th:value="${projectEntity.idProject}" required="false" name="idProject">
+                                    <input type="text" id="idProject" style="text-align: center" readonly="true" class="form-control" th:value="${projectEntity.idProject}" required="false" name="idProject">
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Nombre del Proyecto</label>
-                                    <input type="text" id="projectName" readonly="true" class="form-control" th:value="${projectEntity.projectName}" required="false" name="projectName">
+                                    <input type="text" id="projectName" readonly="true" style="text-align: center"  class="form-control" th:value="${projectEntity.projectName}" required="false" name="projectName">
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Puntos Totales</label>
-                                    <input type="text" class="form-control" th:value="${projectEntity.totalActivities}" required="true" name="totalActivities">
+                                    <input type="text" class="form-control" style="text-align: center"  th:value="${projectEntity.totalActivities}" required="true" name="totalActivities">
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Puntos Terminados</label>
-                                    <input type="text" class="form-control" th:value="${projectEntity.finishedActivities}" required="true" name="finishedActivities">
+                                    <input type="text" class="form-control" style="text-align: center"  th:value="${projectEntity.finishedActivities}" required="true" name="finishedActivities">
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Fecha de Inicio</label>
-                                    <input type="date" class="form-control"  th:text="${#dates.format(projectEntity.startDate.getTime(), 'dd/MM/yyyy')}" required="true" name="startDate">
+                                    <!--<input type="date" class="form-control"  th:text="${#dates.format(projectEntity.startDate.getTime(), 'dd/MM/yyyy')}" required="true" name="startDate">-->
+                                    <p/>
+                                    <input type="text"
+                                           data-parsley-required="true"
+                                           style="cursor: pointer;text-align: center; width: 100%; background-color: white; font-size: 0.9rem; font-family: inherit"
+                                           class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left"
+                                           minlength="10"
+                                           maxlength="10"
+                                           th:readonly="true"
+                                           th:name="startDate"
+                                           id="startDate"
+                                           onclick="dateInput('startDate')"
+                                           th:value="${#dates.format(projectEntity.startDate.getTime(), 'dd/MM/yyyy')}"
+                                    />
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Fecha de Culminacion</label>
-                                    <input type="date" class="form-control"  th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}" required="true" name="endingDate">
+                                    <p/>
+                                    <!--<input type="date" class="form-control"  th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}" required="true" name="endingDate">-->
+                                    <input type="text"
+                                           data-parsley-required="true"
+                                           style="cursor: pointer;text-align: center; width: 100%; background-color: white; font-size: 0.9rem; font-family: inherit"
+                                           class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left"
+                                           minlength="10"
+                                           maxlength="10"
+                                           th:readonly="true"
+                                           th:name="endingDate"
+                                           id="endingDate"
+                                           onclick="dateInput('endingDate')"
+                                           th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}"
+                                    />
+
                                 </div>
                                 <div class="form-group">
                                     <div id="divLiderActual">
                                         <label class = "label-date">Lider Actual</label>
                                         <div id="selectLiderActual">
-                                            <select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:name="userEntityLideresInProject" required="true" >
-                                                <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2}"
+                                            <select  class="form-control" id="lideres" style="width: 95%; float: left; text-align-last:center"  th:name="userEntityLideresInProject" required="true" >
+                                                <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2} "
                                                         th:text=" ${userList.fullName}"
-                                                        th:value="${userList.idUser}">
+                                                        th:value="${userList.idUser}"
+                                                >
+
                                                 </option>
                                             </select>
                                         </div>
@@ -58,14 +87,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Lider a Agregar</label>
-                                    <select  class="form-control"  th:object="${userEntityList}" th:name="userEntity" required="false" >
-                                        <option value="">Seleccione el Lider a agregar</option>
+                                    <select  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
+                                        <option value=""   >Seleccione el Lider a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
                                                 th:value="${userList.idUser}">
                                         </option>
                                     </select>
                                 </div>
+                                <a th:href="@{/projects}" class="btn btn-primary block registerNewUser-left m-b" style="margin-top: 20px;">Cancelar</a>
                                 <button type="submit" class="btn btn-primary block registerNewUser-right m-b" style="margin-top: 20px;">Guardar</button>
                             </form>
                         </div>

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -34,10 +33,10 @@ public class UserEntity {
 
     @Column(name = "EMAIL")
     private String email;
-
+    
+    @Temporal(TemporalType.DATE)
     @Column(name = "BIRTHDAY")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar birthday;
+    private Date birthday;
 
     @ManyToOne
     @JoinColumn(name = "ID_USER_STATUS")
@@ -61,7 +60,7 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String fullName, String username, String password, String email, Calendar birthday, UserStatusEntity userStatusEntity, ProfileEntity profileEntity, GenderEntity genderEntity) {
+    public UserEntity(String fullName, String username, String password, String email, Date birthday, UserStatusEntity userStatusEntity, ProfileEntity profileEntity, GenderEntity genderEntity) {
         this.fullName = fullName;
         this.username = username;
         this.password = password;
@@ -112,11 +111,11 @@ public class UserEntity {
         this.email = email;
     }
 
-    public Calendar getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Calendar birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 

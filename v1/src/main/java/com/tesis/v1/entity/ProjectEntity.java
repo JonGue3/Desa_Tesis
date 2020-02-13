@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,13 +30,13 @@ public class ProjectEntity {
     @Column(name = "FINISHED_ACTIVITIES")
     private Integer finishedActivities;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "START_DATE")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar startDate;
+    private Date startDate;
 
+    @Temporal(TemporalType.DATE)
     @Column(name = "ENDING_DATE")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Calendar endingDate;
+    private Date endingDate;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "projectEntitySet", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.EAGER)
@@ -44,7 +45,7 @@ public class ProjectEntity {
     public ProjectEntity() {
     }
 
-    public ProjectEntity(String projectName, Integer totalActivities, Integer finishedActivities, Calendar startDate, Calendar endingDate) {
+    public ProjectEntity(String projectName, Integer totalActivities, Integer finishedActivities, Date startDate, Date endingDate) {
         this.projectName = projectName;
         this.totalActivities = totalActivities;
         this.finishedActivities = finishedActivities;
@@ -84,19 +85,19 @@ public class ProjectEntity {
         this.finishedActivities = finishedActivities;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Calendar getEndingDate() {
+    public Date getEndingDate() {
         return endingDate;
     }
 
-    public void setEndingDate(Calendar endingDate) {
+    public void setEndingDate(Date endingDate) {
         this.endingDate = endingDate;
     }
 

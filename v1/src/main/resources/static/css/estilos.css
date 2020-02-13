@@ -62,4 +62,11 @@ input.parsley-error {
 .label-date {
     color: #0f7b9f;
 }
+.centerInputWidth100{
+    text-align: center;
+}
 
+
+.centerSelectInputWidth100{
+    text-align-last: center;
+}
