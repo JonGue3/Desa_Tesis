@@ -234,4 +234,20 @@ public class ProjectController {
         modelAndView.setViewName("projects");
         return modelAndView;
     }
+
+    @GetMapping("/statusProjects")
+    public ModelAndView statusProjects () {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserEntity userEntity = null;
+        try {
+            userEntity = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntityList", userEntity.getProjectEntitySet());
+        modelAndView.setViewName("statusProjects");
+        return modelAndView;
+    }
 }

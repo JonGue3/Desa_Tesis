@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/headerDashboard :: header-css"/>
+
+</head>
+
+<body>
+<div id="wrapper">
+
+    <div th:replace="fragments/sideBarMenu :: sideBarMenu"/>
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="fragments/headerDashboard :: header-body"/>
+
+        <div class="wrapper wrapper-content">
+            <div class="row" th:object="${projectEntityList}">
+                <div class="col-lg-12">
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>Estatus de los Proyectos</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="row">
+                                <ul id="listProjects" th:object="${projectEntityList}" th:name="projectEntity">
+                                    <li class="ibox-title"  th:each="projectList : ${projectEntityList}">
+                                        <div class="divProject" style="cursor: pointer">
+                                            <h3 th:text="${projectList.projectName}"></h3>
+                                            <div id="divStatusProject" style="margin-bottom: 100px; padding: 20px; display: none">
+                                                <div style="float: left">
+                                                    <label>Actividades Totales: </label>
+                                                    <span id="totalActivities" th:text="${projectList.totalActivities}"></span>
+                                                    <br>
+                                                    <label>Actividades Finalizadas: </label>
+                                                    <span id="finishedActivities" th:text="${projectList.finishedActivities}" style="color: #1ab394"></span>
+                                                    <i class="fa fa-square"></i>
+                                                </div>
+                                                <div style="float:right; margin-left: 30px;">
+                                                    <span class="sparklineStatus"></span>
+                                                    <label style=" margin-left: 30px;">Actividades Restantes: </label>
+                                                    <span class="activitiesToDo" style="color: #3453B3" th:text="${projectList.finishedActivities}!=null?${projectList.totalActivities}-${projectList.finishedActivities}:${projectList.totalActivities}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/footerDashboard :: footer"/>
+    </div>
+</div>
+<script>
+    /*/!*var finished = $("#finishedActivities").text();
+    var toDo = $("#finishedActivities").text()!==null?$("#totalActivities").text()-$("#finishedActivities").text():$("#totalActivities").text();*!/
+    $(".sparklineStatus").sparkline([$("#finishedActivities").text(), $("#finishedActivities").text()!==null?$("#totalActivities").text()-$("#finishedActivities").text():$("#totalActivities").text()], {
+        type: 'pie',
+        height: '100',
+        sliceColors: ['#1ab394', '#b3b3b3']
+    });*/
+
+    function showProjectStatus(project) {
+        $("#divStatusProject").show();
+        var finished = project.finishedActivities;
+        var todDo = project.finishedActivities !== null? project.totalActivities - project.finishedActivities: project.totalActivities;
+        $(".sparklineStatus").sparkline([finished, todDo], {
+            type: 'pie',
+            height: '100',
+            sliceColors: ['#1ab394', '#b3b3b3']
+        });
+    }
+
+    $(".divProject").on("click", function(e) {
+        $('ul > li > div').children('#divStatusProject').hide()
+        $(this).children('div:hidden').show();
+        var finished = $(this).children('div').children('div').children('#finishedActivities').text();
+        var todo = finished !== null?$(this).children('div').children('div').children('#totalActivities').text() - finished: $(this).children('div').children('div').children('#totalActivities').text();
+        $(".sparklineStatus").sparkline([finished, todo], {
+            type: 'pie',
+            height: '100',
+            sliceColors: ['#1ab394', '#3453B3']
+        });
+    });
+</script>
+</body>
+</html>

@@ -66,6 +66,20 @@ input.parsley-error {
     text-align: center;
 }
 
+.ibox-list{
+    background-color: #ffffff;
+    border-bottom: solid;
+    border-color: #e7eaec;
+    border-image: none;
+    border-style: none solid none;
+    border-width: 2px 0 0;
+    color: inherit;
+    margin-bottom: 0;
+    padding: 15px 90px 8px 15px;
+    min-height: 48px;
+    position: relative;
+    clear: both;
+}
 
 .centerSelectInputWidth100{
     text-align-last: center;
