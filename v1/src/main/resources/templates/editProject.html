@@ -88,7 +88,7 @@
                                 <div class="form-group">
                                     <label class = "label-date">Lider a Agregar</label>
                                     <select  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
-                                        <option value=""   >Seleccione el Lider a agregar</option>
+                                        <option value="0">Seleccione el Lider a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
                                                 th:value="${userList.idUser}">

@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -43,6 +44,9 @@ public class ProjectController {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private LoginController loginController;
 
     @GetMapping("/createProject")
     ModelAndView createProject() {
@@ -74,8 +78,7 @@ public class ProjectController {
     }
 
     @PostMapping("/saveProject")
-    public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
         List<UserEntity> userEntityList = new ArrayList<>();
         ProfileEntity profileEntity;
@@ -83,8 +86,6 @@ public class ProjectController {
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         List<ProjectEntity> projectEntityList1 = new ArrayList<>();
         Set<ProjectEntity> projectEntitySet2 = new HashSet<>();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserEntity userEntityAuth = null;
         List<ProjectEntity> projectEntityListLider = new ArrayList<>();
         List<UserEntity> userEntityListAdmin = new ArrayList<>();
         try {
@@ -127,8 +128,7 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.setViewName("projects");
-        return modelAndView;
+        return loginController.getMenu(httpServletRequest);
     }
 
     @GetMapping("/editProject/{projectName}")
@@ -192,18 +192,10 @@ public class ProjectController {
     }
 
     @PostMapping("/saveEditProject")
-    public ModelAndView saveEditProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity) {
-        ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView saveEditProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
         ProjectEntity projectEntityUserSet = null;
-        UserStatusEntity userStatusEntity;
-        ProfileEntity profileEntity;
-        List<ProjectEntity> projectEntityList1 = new ArrayList<>();
-        List<UserEntity> userEntityList = new ArrayList<>();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        UserEntity userEntity1 = null;
         try {
             projectEntityUserSet = projectService.getProjectByName(projectEntity.getProjectName());
             projectEntity.setUserEntitySet(projectEntityUserSet.getUserEntitySet());
@@ -216,23 +208,11 @@ public class ProjectController {
                 projectEntitySet.add(projectEntity);
                 userEntity.setProjectEntitySet(projectEntitySet);
                 userRepository.save(userEntity);
-                userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
-                profileEntity = profileService.getProfileById(Long.valueOf(2));
-
             }
-            /*userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
-            profileEntity = profileService.getProfileById(Long.valueOf(2));
-            userEntityList = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);*/
-            userEntity1 = userService.getUserByUserName(currentPrincipalName);
-            projectEntityList1 = projectService.getProjectsByUser(userEntity1);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        /*modelAndView.addObject("projectEntity", projectEntity);
-        modelAndView.addObject("userEntityList", userEntityList);*/
-        modelAndView.addObject("projectEntityList", projectEntityList1);
-        modelAndView.setViewName("projects");
-        return modelAndView;
+        return loginController.getMenu(httpServletRequest);
     }
 
     @GetMapping("/statusProjects")
