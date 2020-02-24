@@ -42,6 +42,22 @@ public class UserService {
         return userEntity;
     }
 
+    public UserEntity saveUserAssignedRole (UserEntity userEntity) {
+        try {
+            userEntity = userRepository.save(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+    public  void saveEditUser(UserEntity userEntity){
+        try {
+          userRepository.save(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<UserEntity> getUsersByProfile (ProfileEntity profileEntity, UserStatusEntity userStatusEntity) {
         List<UserEntity> userEntityList = new ArrayList<>();
         try {
@@ -76,6 +92,17 @@ public class UserService {
         List<UserEntity> userEntityList = new ArrayList<>();
         try {
             userEntityList = userRepository.findByProfileEntityAndUserStatusEntityAndProjectEntitySetNotContaining(profileEntity, userStatusEntity, projectEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntityList;
+    }
+
+
+    public List<UserEntity> getUsersForEdit (long idLeader, long idConsultant) {
+        List<UserEntity> userEntityList = new ArrayList<>();
+        try {
+            userEntityList = userRepository.findByProfileEntity_IdProfileOrProfileEntity_IdProfile(idLeader, idConsultant);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -833,7 +833,6 @@
     $(document).ready(function() {
 
         $('#tableProjects').on('click', 'tr', function () {
-            debugger;
             var table = $('#tableProjects').DataTable();
             $(this).toggleClass('selected');
             var pos = table.row(this).index();
