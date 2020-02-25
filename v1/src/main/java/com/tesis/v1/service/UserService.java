@@ -26,6 +26,7 @@ public class UserService {
         userEntity= userRepository.findByUsername(username.toLowerCase());
       }catch (Exception e){
         e.printStackTrace();
+        return userEntity;
       }
     return  userEntity;
     }

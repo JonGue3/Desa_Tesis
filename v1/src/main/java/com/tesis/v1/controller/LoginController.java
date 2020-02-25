@@ -2,6 +2,9 @@ package com.tesis.v1.controller;
 
 import com.tesis.v1.entity.*;
 import com.tesis.v1.service.*;
+import com.tesis.v1.to.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,18 +69,42 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("genderEntityList",genderEntityList);
+        modelAndView.addObject("genderEntityList", genderEntityList);
         UserEntity userEntity = new UserEntity();
         modelAndView.addObject("userEntity", userEntity);
+
         modelAndView.setViewName("registerUser");
         return modelAndView;
     }
 
+
     @PostMapping("/saveUser")
     public ModelAndView saveUser(@ModelAttribute("userEntity") @Valid UserEntity userEntity, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView();
+        UserEntity userEntityConsult = new UserEntity();
+        //consultar si el nombre de usuario existe
         try {
-            userEntity = userService.saveUser(userEntity);
+            userEntityConsult = userService.getUserByUserName(userEntity.getUsername());
+            if (userEntityConsult != null) {
+                List<GenderEntity> genderEntityList = new ArrayList<>();
+                try {
+                    genderEntityList = genderService.getAllGender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                modelAndView.addObject("genderEntityList", genderEntityList);
+                UserEntity userEntity1 = new UserEntity();
+                modelAndView.addObject("userEntity", userEntity1);
+                modelAndView.setViewName("registerUser");
+                modelAndView.addObject("modalExistUser", true);
+                return modelAndView;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            userService.saveUser(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
             modelAndView.setViewName("registerUser");
@@ -105,9 +133,9 @@ public class LoginController {
             e.printStackTrace();
         }
 
-        httpServletRequest.getSession().setAttribute("menuEntityList",menuEntityList);
-        httpServletRequest.getSession().setAttribute("transactionEntityList",transactionEntityList);
-        httpServletRequest.getSession().setAttribute("userEntity",userEntity);
+        httpServletRequest.getSession().setAttribute("menuEntityList", menuEntityList);
+        httpServletRequest.getSession().setAttribute("transactionEntityList", transactionEntityList);
+        httpServletRequest.getSession().setAttribute("userEntity", userEntity);
         modelAndView.addObject("projectEntityList", projectEntityList);
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
