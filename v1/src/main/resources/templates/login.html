@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <div th:replace="fragments/headerLogin :: header-css"/>
+
+
 </head>
 <body class="gray-bg"
       th:style="'background: url(/img/tecleandoLogin.jpg) no-repeat center center fixed;background-size: cover;'">
@@ -33,6 +35,36 @@
         </form>
     </div>
 </div>
+<div class="modal fade" th:if="${modalRegisterSucces!=null}" style="margin-top: 50px" id="modalRegisterSucces">
+    <div class="modal-dialog modal-center">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title" style="text-align: center"
+                    th:utext="#{mensaje.header.estimado.usuario}"/>
+            </div>
+            <div class="modal-body x_content">
+                <div style="display: inline">
+                    <div class="col-sm-1"></div>
+                    <p th:utext="#{mensaje.registro.exitoso}"/>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary " style="width: 40%" data-dismiss="modal">Cerrar</button>
+            </div>
+            </p>
+            </p>
+        </div>
+    </div>
+</div>
 </body>
+<script>
+    $.map(modalRegisterSucces, function (val) {
+        if (val != null) {
+            $("#modalRegisterSucces").modal("show");
+        }
+    });
+</script>
 <div th:replace="fragments/footerLogin :: footer-js"/>
 </html>

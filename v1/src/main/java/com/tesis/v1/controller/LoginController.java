@@ -110,6 +110,7 @@ public class LoginController {
             modelAndView.setViewName("registerUser");
             return modelAndView;
         }
+        modelAndView.addObject("modalRegisterSucces",true);
         modelAndView.setViewName("login");
         return modelAndView;
     }
