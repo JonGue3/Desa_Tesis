@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/headerDashboard :: header-css"/>
+</head>
+<body>
+<div id="wrapper">
+    <div th:replace="fragments/sideBarMenu :: sideBarMenu"/>
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="fragments/headerDashboard :: header-body"/>
+        <div class="row" th:object="${activityEntityList}">
+            <div class="col-lg-12">
+                <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Crear Actividad</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-register">
+                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveActivity}" th:object="${activityEntity}" method="post">
+                                <div class="form-group" style="display: none">
+                                    <input type="text" readonly class="form-control centerInputWidth100" th:object="${projectEntity}" th:name="projectEntity" th:value="${projectEntity.idProject}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control centerInputWidth100" placeholder="Nombre de la Actividad" required="true" name="activityName">
+                                </div>
+                                <div class="form-group">
+                                    <select  class="form-control centerSelectInputWidth100"  th:object="${activityPointsEntity}" th:name="activityPointsEntity" required="true" >
+                                        <option value="">Seleccione el Puntaje</option>
+                                        <option th:each="point : ${activityPointsEntities}"
+                                                th:text=" ${point.points}"
+                                                th:value="${point.idActivityPoints}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                <select  class="form-control centerSelectInputWidth100"  th:object="${activityStatusEntity}" th:name="activityStatusEntity" required="true" >
+                                    <option value="">Seleccione el Estado</option>
+                                    <option th:each="status : ${activityStatusEntities}"
+                                            th:text=" ${status.description}"
+                                            th:value="${status.idActivityStatus}">
+                                    </option>
+                                </select>
+                                </div>
+                                <div class="form-group">
+                                    <select  class="form-control centerSelectInputWidth100"  th:object="${userEntityList}" th:name="userEntity" required="true" >
+                                        <option value="">Seleccione el Responsable</option>
+                                        <option th:each="user : ${userEntityList}"
+                                                th:text=" ${user.fullName}"
+                                                th:value="${user.idUser}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <!--<label class = "label-date">Fecha de Inicio</label>-->
+                                    <input type="text"
+                                           data-parsley-required="true"
+                                           style="cursor: pointer;text-align: center; width: 100%; background-color: white; font-size: 0.9rem; font-family: inherit"
+                                           class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left centerInputWidth100"
+                                           minlength="10"
+                                           maxlength="10"
+                                           th:readonly="true"
+                                           th:name="startDate"
+                                           id="startDate"
+                                           placeholder="Fecha Inicio"
+                                           onclick="dateInput('startDate')"
+                                    />
+
+                                </div>
+                                <div class="form-group">
+                                    <input type="text"
+                                           data-parsley-required="true"
+                                           style="cursor: pointer;text-align: center; width: 100%; background-color: white; font-size: 0.9rem; font-family: inherit"
+                                           class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left centerInputWidth100"
+                                           minlength="10"
+                                           maxlength="10"
+                                           th:readonly="true"
+                                           th:name="endingDate"
+                                           id="endingDate"
+                                           placeholder="Fecha Culminacion"
+
+                                           onclick="dateInput('endingDate')"
+                                    />
+                                </div>
+                                <a th:href="@{/projects}" class="btn btn-primary block registerNewUser-left m-b" style="margin-top: 20px;">Cancelar</a>
+                                <button type="submit" class="btn btn-primary block registerNewUser-right m-b" style="margin-top: 20px;">Guardar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/footerDashboard :: footer"/>
+    </div>
+</div>
+
+</div>
+
+
+</body>
+</html>

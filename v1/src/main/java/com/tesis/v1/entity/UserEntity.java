@@ -6,7 +6,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -52,15 +52,22 @@ public class UserEntity {
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_PROYECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
+    @JoinTable(name = "T_USER_PROYECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
                 inverseJoinColumns = @JoinColumn(name = "ID_PROYECT", referencedColumnName = "ID_PROYECT"))
     @Fetch(FetchMode.SUBSELECT)
     private Set<ProjectEntity> projectEntitySet = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "T_USER_ACTIVITY", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
+            inverseJoinColumns = @JoinColumn(name = "ID_ACTIVITY", referencedColumnName = "ID_ACTIVITY"))
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<ActivityEntity> activityEntitySet = new HashSet<>();
+
     public UserEntity() {
     }
 
-    public UserEntity(String fullName, String username, String password, String email, Date birthday, UserStatusEntity userStatusEntity, ProfileEntity profileEntity, GenderEntity genderEntity) {
+    public UserEntity(String fullName, String username, String password, String email, Date birthday, UserStatusEntity userStatusEntity, ProfileEntity profileEntity, GenderEntity genderEntity, Set<ProjectEntity> projectEntitySet, Set<ActivityEntity> activityEntitySet) {
         this.fullName = fullName;
         this.username = username;
         this.password = password;
@@ -69,6 +76,8 @@ public class UserEntity {
         this.userStatusEntity = userStatusEntity;
         this.profileEntity = profileEntity;
         this.genderEntity = genderEntity;
+        this.projectEntitySet = projectEntitySet;
+        this.activityEntitySet = activityEntitySet;
     }
 
     public long getIdUser() {
@@ -151,6 +160,14 @@ public class UserEntity {
         this.projectEntitySet = projectEntitySet;
     }
 
+    public Set<ActivityEntity> getActivityEntitySet() {
+        return activityEntitySet;
+    }
+
+    public void setActivityEntitySet(Set<ActivityEntity> activityEntitySet) {
+        this.activityEntitySet = activityEntitySet;
+    }
+
     @Override
     public String toString() {
         return "UserEntity{" +
@@ -163,6 +180,8 @@ public class UserEntity {
                 ", userStatusEntity=" + userStatusEntity +
                 ", profileEntity=" + profileEntity +
                 ", genderEntity=" + genderEntity +
+                ", projectEntitySet=" + projectEntitySet +
+                ", activityEntitySet=" + activityEntitySet +
                 '}';
     }
 }

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

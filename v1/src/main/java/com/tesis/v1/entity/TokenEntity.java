@@ -3,7 +3,7 @@ package com.tesis.v1.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name = "T_TOKEN")
@@ -20,7 +20,7 @@ public class TokenEntity {
     private String tokenDescription;
 
     @Column(name = "EXPIRY_DATE")
-    private Calendar expiryDate;
+    private Date expiryDate;
 
     @OneToOne
     @JoinColumn(name = "ID_USER")
@@ -29,7 +29,7 @@ public class TokenEntity {
     public TokenEntity() {
     }
 
-    public TokenEntity(String tokenDescription, Calendar expiryDate, UserEntity userEntity) {
+    public TokenEntity(String tokenDescription, Date expiryDate, UserEntity userEntity) {
         this.tokenDescription = tokenDescription;
         this.expiryDate = expiryDate;
         this.userEntity = userEntity;
@@ -51,11 +51,11 @@ public class TokenEntity {
         this.tokenDescription = tokenDescription;
     }
 
-    public Calendar getExpiryDate() {
+    public Date getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Calendar expiryDate) {
+    public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
     }
 

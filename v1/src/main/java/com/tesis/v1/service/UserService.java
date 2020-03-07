@@ -1,9 +1,6 @@
 package com.tesis.v1.service;
 
-import com.tesis.v1.entity.ProfileEntity;
-import com.tesis.v1.entity.ProjectEntity;
-import com.tesis.v1.entity.UserEntity;
-import com.tesis.v1.entity.UserStatusEntity;
+import com.tesis.v1.entity.*;
 import com.tesis.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -104,6 +101,26 @@ public class UserService {
         List<UserEntity> userEntityList = new ArrayList<>();
         try {
             userEntityList = userRepository.findByProfileEntity_IdProfileOrProfileEntity_IdProfile(idLeader, idConsultant);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntityList;
+    }
+
+    public List<UserEntity> getUsersByProfileAndProject(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity) {
+        List<UserEntity> userEntityList = new ArrayList<>();
+        try {
+            userEntityList = userRepository.findByProfileEntityAndUserStatusEntityAndProjectEntitySet(profileEntity, userStatusEntity, projectEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntityList;
+    }
+
+    public List<UserEntity> getUsersByProfileAndProjectAndNotInTheActivity(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity, ActivityEntity activityEntity) {
+        List<UserEntity> userEntityList = new ArrayList<>();
+        try {
+            userEntityList = userRepository.findByProfileEntityAndUserStatusEntityAndProjectEntitySetAndActivityEntitySetNotContaining(profileEntity, userStatusEntity, projectEntity, activityEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }

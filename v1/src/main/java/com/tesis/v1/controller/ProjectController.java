@@ -3,6 +3,7 @@ package com.tesis.v1.controller;
 import com.tesis.v1.entity.*;
 import com.tesis.v1.repository.ProjectRepository;
 import com.tesis.v1.repository.UserRepository;
+import com.tesis.v1.repository.UserStatusRepository;
 import com.tesis.v1.service.*;
 import com.tesis.v1.to.Response;
 import org.json.JSONObject;
@@ -48,6 +49,9 @@ public class ProjectController {
     @Autowired
     private LoginController loginController;
 
+    @Autowired
+    private ActivityService activityService;
+
     @GetMapping("/createProject")
     ModelAndView createProject() {
         ModelAndView modelAndView = new ModelAndView();
@@ -78,7 +82,8 @@ public class ProjectController {
     }
 
     @PostMapping("/saveProject")
-    public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
+    public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity,
+                                    HttpServletRequest httpServletRequest) {
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
         List<UserEntity> userEntityList = new ArrayList<>();
         ProfileEntity profileEntity;
@@ -89,7 +94,9 @@ public class ProjectController {
         List<ProjectEntity> projectEntityListLider = new ArrayList<>();
         List<UserEntity> userEntityListAdmin = new ArrayList<>();
         try {
+            //Guardo Project
             projectEntity = projectService.saveProject(projectEntity);
+            //Guardo el project en el lider
             projectEntityList = projectService.getProjectsByUser(userEntity);
             for (ProjectEntity projectEntity1 : projectEntityList) {
                 projectEntitySet.add(projectEntity1);
@@ -138,47 +145,55 @@ public class ProjectController {
         List<UserEntity> userEntityList = new ArrayList<>();
         UserStatusEntity userStatusEntity;
         ProfileEntity profileEntity;
+        List<UserEntity> userEntityList1 = new ArrayList<>();
         try {
             userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
             profileEntity = profileService.getProfileById(Long.valueOf(2));
             projectEntity = projectService.getProjectByName(projectName);
             userEntityList = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
+            profileEntity = profileService.getProfileById(Long.valueOf(3));
+            userEntityList1 = userService.getUsersByProfile(profileEntity, userStatusEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
         modelAndView.addObject("projectEntity", projectEntity);
         modelAndView.addObject("userEntityList", userEntityList);
+        modelAndView.addObject("userEntityListRecursos", userEntityList1);
         modelAndView.setViewName("editProject");
         return modelAndView;
     }
 
-    @PostMapping("/deleteLider")
+    @PostMapping("/deleteUserOfProject")
     @ResponseBody
-    public Response deleteLider (@RequestBody String jString) {
+    public Response deleteUserOfProject (@RequestBody String jString) {
         Response response;
         ProjectEntity projectEntity = null;
         UserEntity userEntity;
-        List<UserEntity> userEntityList = new ArrayList<>();
-        UserStatusEntity userStatusEntity;
-        ProfileEntity profileEntity;
+        List<ActivityEntity> activityEntities = new ArrayList<>();
         try {
-            userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
-            profileEntity = profileService.getProfileById(Long.valueOf(2));
-            userEntityList = userService.getUsersByProfile(profileEntity, userStatusEntity);
             JSONObject jsonObject = new JSONObject(jString);
             String projectName = jsonObject.getString("projectName");
-            long idLider = Long.valueOf(jsonObject.getString("lider"));
+            long idUser = Long.valueOf(jsonObject.getString("user"));
             projectEntity = projectService.getProjectByName(projectName);
-            userEntity = userService.getUserById(idLider);
+            userEntity = userService.getUserById(idUser);
+            activityEntities = activityService.getActivitiesByUser(userEntity);
             for (UserEntity userEntity1 : projectEntity.getUserEntitySet()) {
                 if (userEntity1.getIdUser() == userEntity.getIdUser()) {
+                    for (ActivityEntity activityEntity : activityEntities) {
+                        if (activityEntity.getProjectEntity().getIdProject() == projectEntity.getIdProject()) {
+                            activityEntity.getUserEntitySet().remove(userEntity1);
+                            userEntity1.getActivityEntitySet().remove(activityEntity);
+                        }
+                    }
                     projectEntity.getUserEntitySet().remove(userEntity1);
-                    for (ProjectEntity projectEntity1 : userEntity1.getProjectEntitySet()) {
+                    userEntity1.getProjectEntitySet().remove(projectEntity);
+                    userRepository.saveAndFlush(userEntity1);
+                    /*for (ProjectEntity projectEntity1 : userEntity1.getProjectEntitySet()) {
                         if (projectEntity1.getIdProject() == projectEntity.getIdProject()) {
                             userEntity1.getProjectEntitySet().remove(projectEntity1);
                             userRepository.saveAndFlush(userEntity1);
                         }
-                    }
+                    }*/
                 }
             }
         } catch (ConcurrentModificationException c) {
@@ -192,10 +207,12 @@ public class ProjectController {
     }
 
     @PostMapping("/saveEditProject")
-    public ModelAndView saveEditProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
+    public ModelAndView saveEditProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity,
+                                        @RequestParam("userEntityRecurso") UserEntity userEntityRecurso ,HttpServletRequest httpServletRequest) {
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
         ProjectEntity projectEntityUserSet = null;
+        Set<ProjectEntity> projectEntitySet1 = new HashSet<>();
         try {
             projectEntityUserSet = projectService.getProjectByName(projectEntity.getProjectName());
             projectEntity.setUserEntitySet(projectEntityUserSet.getUserEntitySet());
@@ -208,6 +225,16 @@ public class ProjectController {
                 projectEntitySet.add(projectEntity);
                 userEntity.setProjectEntitySet(projectEntitySet);
                 userRepository.save(userEntity);
+            }
+            if (userEntityRecurso != null) {
+                //Guardo el project en el recurso
+                projectEntityList = projectService.getProjectsByUser(userEntityRecurso);
+                for (ProjectEntity projectEntity1 : projectEntityList) {
+                    projectEntitySet1.add(projectEntity1);
+                }
+                projectEntitySet1.add(projectEntity);
+                userEntityRecurso.setProjectEntitySet(projectEntitySet1);
+                userRepository.save(userEntityRecurso);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,6 +255,31 @@ public class ProjectController {
         }
         modelAndView.addObject("projectEntityList", userEntity.getProjectEntitySet());
         modelAndView.setViewName("statusProjects");
+        return modelAndView;
+    }
+
+    @GetMapping("/seeProjects")
+    ModelAndView seeProjects(HttpServletRequest httpServletRequest) {
+        ModelAndView modelAndView = new ModelAndView();
+        List<MenuEntity> menuEntityList = new ArrayList<>();
+        List<TransactionEntity> transactionEntityList = new ArrayList<>();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserEntity userEntity = null;
+        try {
+            userEntity = userService.getUserByUserName(currentPrincipalName);
+            projectEntityList = projectService.getProjectsByUser(userEntity);
+            transactionEntityList = transactionService.getTransactionByIdProfile(userEntity);
+            menuEntityList = menuService.getMenuByIdProfile(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        httpServletRequest.getSession().setAttribute("menuEntityList", menuEntityList);
+        httpServletRequest.getSession().setAttribute("transactionEntityList", transactionEntityList);
+        httpServletRequest.getSession().setAttribute("userEntity", userEntity);
+        modelAndView.addObject("projectEntityList", projectEntityList);
+        modelAndView.setViewName("seeProjects");
         return modelAndView;
     }
 }

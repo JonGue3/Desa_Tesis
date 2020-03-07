@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <div th:replace="fragments/headerDashboard :: header-css"/>
+
+</head>
+
+<body>
+<div id="wrapper">
+    <div th:replace="fragments/sideBarMenu :: sideBarMenu"/>
+    <div id="page-wrapper" class="gray-bg">
+        <div th:replace="fragments/headerDashboard :: header-body"/>
+        <div class="modal fade" th:if="${projectEntityList!=null}" style="margin-top: 50px" id="modalSelectProject">
+            <div class="modal-dialog modal-center">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <h5 class="modal-title" style="text-align: center"
+                            th:utext="#{mensaje.header.estimado.usuario}"/>
+                    </div>
+                    <div class="modal-body x_content">
+                        <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/createActivity}" th:object="${projectEntity}"
+                              method="post">
+                            <div class="form-group">
+                                <select class="form-control" th:object="${projectEntityList}" th:name="projectEntity" required="true">
+                                    <option value="">Seleccione Proyecto</option>
+                                    <option th:each="projectList : ${projectEntityList}"
+                                            th:text=" ${projectList.projectName}"
+                                            th:value="${projectList.idProject}"
+                                    ></option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary block registerNewUser-right m-b">Enviar</button>
+                            <a class="btn btn-primary block registerNewUser-left m-b" th:href="@{/projects}">Cancelar</a>
+                        </form>
+                    </div>
+                    </p>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div th:replace="fragments/footerDashboard :: footer"/>
+    </div>
+</div>
+<script>
+    $("#modalSelectProject").modal("show");
+</script>
+</body>
+</html>

@@ -14,25 +14,46 @@
             <div class="col-lg-12">
                 <div class="ibox ">
                     <div class="ibox-title">
-                        <h5>Editar Proyecto</h5>
+                        <h5>Editar Actividad</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="form-register">
-                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveEditProject}" th:object="${projectEntity}" method="post">
+                            <form class="m-t" role="form" data-parsley-validate="true" th:action="@{/saveEditActivity}" th:object="${activityEntity}" method="post">
+                                <div class="form-group" style="display: none">
+                                    <input type="text" readonly class="form-control centerInputWidth100" th:object="${projectEntity}" th:name="projectEntity" th:value="${projectEntity.idProject}">
+                                </div>
                                 <div class="form-group" hidden="hidden">
-                                    <input type="text" id="idProject" style="text-align: center" readonly="true" class="form-control" th:value="${projectEntity.idProject}" required="false" name="idProject">
+                                    <input type="text" id="idActivity" style="text-align: center" readonly="true" class="form-control" th:value="${activityEntity.idActivity}" required="false" name="idActivity">
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Nombre del Proyecto</label>
-                                    <input type="text" id="projectName" readonly="true" style="text-align: center"  class="form-control" th:value="${projectEntity.projectName}" required="false" name="projectName">
+                                    <label class = "label-date">Nombre de la Actividad</label>
+                                    <input type="text" id="activityName" readonly="true" style="text-align: center"  class="form-control" th:value="${activityEntity.activityName}" required="false" name="activityName">
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Puntos Totales</label>
-                                    <input type="text" class="form-control" style="text-align: center"  th:value="${projectEntity.totalActivities}" required="true" name="totalActivities">
+                                    <label class = "label-date">Proyecto</label>
+                                    <input type="text" class="form-control" style="text-align: center"  th:value="${activityEntity.projectEntity.projectName}" required="true" name="projectName">
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Puntos Terminados</label>
-                                    <input type="text" class="form-control" style="text-align: center"  th:value="${projectEntity.finishedActivities}" required="true" name="finishedActivities">
+                                    <label class = "label-date">Puntos</label>
+                                    <!--<input type="text" class="form-control" style="text-align: center"  th:value="${activityEntity.activityPointsEntity.points}" required="true" name="activityPoints">-->
+                                    <select  class="form-control centerSelectInputWidth100"  th:object="${activityEntity.activityPointsEntity}" th:name="activityPointsEntity" required="true" >
+                                        <option value="0">Seleccione el Puntaje</option>
+                                        <option th:each="point : ${activityPointsEntities}" th:selected="${point.idActivityPoints == activityEntity.activityPointsEntity.idActivityPoints}"
+                                                th:text=" ${point.points}"
+                                                th:value="${point.idActivityPoints}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class = "label-date">Estado</label>
+                                    <!--<input type="text" class="form-control" style="text-align: center"  th:value="${activityEntity.activityStatusEntity.description}" required="true" name="activityStatus">-->
+                                    <select  class="form-control centerSelectInputWidth100"  th:object="${activityEntity.activityStatusEntity}" th:name="activityStatusEntity" required="true" >
+                                        <option value="0">Seleccione el Puntaje</option>
+                                        <option th:each="status : ${activityStatusEntities}" th:selected="${status.idActivityStatus == activityEntity.activityStatusEntity.idActivityStatus}"
+                                                th:text=" ${status.description}"
+                                                th:value="${status.idActivityStatus}">
+                                        </option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Fecha de Inicio</label>
@@ -48,7 +69,7 @@
                                            th:name="startDate"
                                            id="startDate"
                                            onclick="dateInput('startDate')"
-                                           th:value="${#dates.format(projectEntity.startDate.getTime(), 'dd/MM/yyyy')}"
+                                           th:value="${#dates.format(activityEntity.startDate.getTime(), 'dd/MM/yyyy')}"
                                     />
                                 </div>
                                 <div class="form-group">
@@ -65,57 +86,30 @@
                                            th:name="endingDate"
                                            id="endingDate"
                                            onclick="dateInput('endingDate')"
-                                           th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}"
+                                           th:value="${#dates.format(activityEntity.endingDate.getTime(), 'dd/MM/yyyy')}"
                                     />
 
                                 </div>
                                 <div class="form-group">
-                                    <div id="divLiderActual">
-                                        <label class = "label-date">Lider Actual</label>
-                                        <div id="selectLiderActual">
-                                            <select  class="form-control" id="lideres" style="width: 95%; float: left; text-align-last:center"  th:name="userEntityLideresInProject" required="true" >
-                                                <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2} "
+                                    <div id="divResponsable">
+                                        <label class = "label-date">Responsable</label>
+                                        <div id="selectResponsable">
+                                            <select  class="form-control" id="responsable" style="width: 95%; float: left; text-align-last:center" th:object="${activityEntity.userEntitySet}"  th:name="userEntityResponsablesActivity" required="true" >
+                                                <option th:each="userList : ${activityEntity.userEntitySet}"
                                                         th:text=" ${userList.fullName}"
                                                         th:value="${userList.idUser}"
                                                 >
-
                                                 </option>
                                             </select>
                                         </div>
                                     </div>
-                                    <span class="fa fa-trash fa-2x" id="deleteIcon" style="cursor: pointer; float: left; margin: 5px;"></span>
+                                    <span class="fa fa-trash fa-2x" id="deleteIconRecursoInActivity" style="cursor: pointer; float: left; margin: 5px;"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Lider a Agregar</label>
+                                    <label class = "label-date">Responsable a Agregar</label>
                                     <select  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
-                                        <option value="0">Seleccione el Lider a agregar</option>
+                                        <option value="0">Seleccione el Responsable a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
-                                                th:text=" ${userList.fullName}"
-                                                th:value="${userList.idUser}">
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <div id="divRecursos">
-                                        <label class = "label-date">Recursos</label>
-                                        <div id="selectRecursos">
-                                            <select  class="form-control" id="recursos" style="width: 95%; float: left; text-align-last:center"  th:name="userEntityRecursosInProject" required="true" >
-                                                <option value="0">Seleccione el Recurso</option>
-                                                <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 3} "
-                                                        th:text=" ${userList.fullName}"
-                                                        th:value="${userList.idUser}"
-                                                >
-                                                </option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <span class="fa fa-trash fa-2x" id="deleteIconRecurso" style="cursor: pointer; float: left; margin: 5px;"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label class = "label-date">Recurso a Agregar</label>
-                                    <select  class="form-control" style="text-align-last:center"  th:object="${userEntityListRecursos}" th:name="userEntityRecurso" required="false" >
-                                        <option value="0">Seleccione el Recurso a agregar</option>
-                                        <option th:each="userList : ${userEntityListRecursos}"
                                                 th:text=" ${userList.fullName}"
                                                 th:value="${userList.idUser}">
                                         </option>
@@ -134,13 +128,14 @@
 </div>
 
 <script>
-    $('#deleteIcon').on('click', function () {
+    $('#deleteIconRecursoInActivity').on('click', function () {
         debugger;
-        var user = $('#lideres option:selected').val();
-        var projectName = $('#projectName').val();
-        var url = '/deleteUserOfProject';
+        var user = $('#responsable option:selected').val();
+        var idActivity = $('#idActivity').val();
+        var activityName = $('#activityName').val();
+        var url = '/deleteUserOfActivity';
         var data = {
-            projectName : projectName,
+            idActivity : idActivity,
             user : user
         }
         $.ajax({
@@ -151,47 +146,7 @@
             data : JSON.stringify(data),
             success : function (response) {
                 if (response.status === "SUCCESS") {
-                    window.location.href = projectName;
-
-                    //Actualizacion dinamica del select despues del delete
-                    /*var userEntities = Object.assign({}, response.data);
-                    // var userEntities = JSON.stringify(response.data);
-                    $('#selectLiderActual').hide();
-                    $('#divLiderActual').append(`<select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:object="${userEntities}" th:name="userEntity" required="true" >\n` +
-                        `                                                <option th:each="userList : ${userEntities}" \n` +
-                        `                                                        \n` +
-                        `                                                        >\n` +
-                        `                                                </option>`);
-
-                    $('#lideres').append(userEntities);
-                    $('#lideres').prop("","");*/
-                }
-                console.log('ss');
-            },
-            error : function () {
-                console.log("ERROR");
-            }
-        });
-
-    });
-    $('#deleteIconRecurso').on('click', function () {
-        debugger;
-        var user = $('#recursos option:selected').val();
-        var projectName = $('#projectName').val();
-        var url = '/deleteUserOfProject';
-        var data = {
-            projectName : projectName,
-            user : user
-        }
-        $.ajax({
-            url : url,
-            contentType: "application/json",
-            type : 'post',
-            dataType: 'json',
-            data : JSON.stringify(data),
-            success : function (response) {
-                if (response.status === "SUCCESS") {
-                    window.location.href = projectName;
+                    window.location.href = activityName;
 
                     //Actualizacion dinamica del select despues del delete
                     /*var userEntities = Object.assign({}, response.data);

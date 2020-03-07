@@ -1,9 +1,6 @@
 package com.tesis.v1.repository;
 
-import com.tesis.v1.entity.ProfileEntity;
-import com.tesis.v1.entity.ProjectEntity;
-import com.tesis.v1.entity.UserEntity;
-import com.tesis.v1.entity.UserStatusEntity;
+import com.tesis.v1.entity.*;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +16,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySetNotContaining(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);
 
     UserEntity findByIdUser(long idUser);
+
+    List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySet(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);
+    List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySetAndActivityEntitySetNotContaining(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity, ActivityEntity activityEntity);
 }

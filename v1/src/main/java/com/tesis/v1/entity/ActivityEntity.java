@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
-import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_ACTIVITY")
@@ -25,10 +27,10 @@ public class ActivityEntity {
     private ActivityPointsEntity activityPointsEntity;
 
     @Column(name = "START_DATE")
-    private Calendar startDate;
+    private Date startDate;
 
     @Column(name = "ENDING_DATE")
-    private Calendar endingDate;
+    private Date endingDate;
 
     @ManyToOne
     @JoinColumn(name = "ID_ACTIVITY_STATUS")
@@ -38,7 +40,21 @@ public class ActivityEntity {
     @JoinColumn(name = "ID_PROYECT")
     private ProjectEntity projectEntity;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "activityEntitySet", cascade = {CascadeType.PERSIST,CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private Set<UserEntity> userEntitySet = new HashSet<>();
+
     public ActivityEntity() {
+    }
+
+    public ActivityEntity(String activityName, ActivityPointsEntity activityPointsEntity, Date startDate, Date endingDate, ActivityStatusEntity activityStatusEntity, ProjectEntity projectEntity, Set<UserEntity> userEntitySet) {
+        this.activityName = activityName;
+        this.activityPointsEntity = activityPointsEntity;
+        this.startDate = startDate;
+        this.endingDate = endingDate;
+        this.activityStatusEntity = activityStatusEntity;
+        this.projectEntity = projectEntity;
+        this.userEntitySet = userEntitySet;
     }
 
     public long getIdActivity() {
@@ -65,19 +81,19 @@ public class ActivityEntity {
         this.activityPointsEntity = activityPointsEntity;
     }
 
-    public Calendar getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Calendar startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Calendar getEndingDate() {
+    public Date getEndingDate() {
         return endingDate;
     }
 
-    public void setEndingDate(Calendar endingDate) {
+    public void setEndingDate(Date endingDate) {
         this.endingDate = endingDate;
     }
 
@@ -97,6 +113,14 @@ public class ActivityEntity {
         this.projectEntity = projectEntity;
     }
 
+    public Set<UserEntity> getUserEntitySet() {
+        return userEntitySet;
+    }
+
+    public void setUserEntitySet(Set<UserEntity> userEntitySet) {
+        this.userEntitySet = userEntitySet;
+    }
+
     @Override
     public String toString() {
         return "ActivityEntity{" +
@@ -107,6 +131,7 @@ public class ActivityEntity {
                 ", endingDate=" + endingDate +
                 ", activityStatusEntity=" + activityStatusEntity +
                 ", projectEntity=" + projectEntity +
+                ", userEntitySet=" + userEntitySet +
                 '}';
     }
 }
