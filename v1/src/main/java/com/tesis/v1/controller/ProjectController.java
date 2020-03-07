@@ -152,7 +152,7 @@ public class ProjectController {
             projectEntity = projectService.getProjectByName(projectName);
             userEntityList = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
             profileEntity = profileService.getProfileById(Long.valueOf(3));
-            userEntityList1 = userService.getUsersByProfile(profileEntity, userStatusEntity);
+            userEntityList1 = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -37,7 +37,7 @@ public class ActivityEntity {
     private ActivityStatusEntity activityStatusEntity;
 
     @ManyToOne
-    @JoinColumn(name = "ID_PROYECT")
+    @JoinColumn(name = "ID_PROJECT")
     private ProjectEntity projectEntity;
 
     @JsonIgnore

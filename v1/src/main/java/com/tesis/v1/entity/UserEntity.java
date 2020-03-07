@@ -52,8 +52,8 @@ public class UserEntity {
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "T_USER_PROYECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
-                inverseJoinColumns = @JoinColumn(name = "ID_PROYECT", referencedColumnName = "ID_PROYECT"))
+    @JoinTable(name = "T_USER_PROJECT", joinColumns = @JoinColumn(name = "ID_USER", referencedColumnName = "ID_USER"),
+                inverseJoinColumns = @JoinColumn(name = "ID_PROJECT", referencedColumnName = "ID_PROJECT"))
     @Fetch(FetchMode.SUBSELECT)
     private Set<ProjectEntity> projectEntitySet = new HashSet<>();
 

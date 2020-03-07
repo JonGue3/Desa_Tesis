@@ -11,17 +11,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "T_PROYECT")
+@Table(name = "T_PROJECT")
 public class ProjectEntity {
 
     @Id
-    @SequenceGenerator(name="PROYECT_SEQ",sequenceName="PROYECT_SEQ", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PROYECT_SEQ")
-    @Column(name = "ID_PROYECT")
+    @SequenceGenerator(name="PROJECT_SEQ",sequenceName="PROJECT_SEQ", allocationSize=1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="PROJECT_SEQ")
+    @Column(name = "ID_PROJECT")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private long idProject;
 
-    @Column(name = "PROYECT_NAME")
+    @Column(name = "PROJECT_NAME")
     private String projectName;
 
     @Column(name = "TOTAL_ACTIVITIES")
