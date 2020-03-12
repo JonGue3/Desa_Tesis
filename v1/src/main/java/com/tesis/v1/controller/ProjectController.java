@@ -6,6 +6,7 @@ import com.tesis.v1.repository.UserRepository;
 import com.tesis.v1.repository.UserStatusRepository;
 import com.tesis.v1.service.*;
 import com.tesis.v1.to.Response;
+import com.tesis.v1.to.UpdateSelectDto;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -169,7 +170,12 @@ public class ProjectController {
         Response response;
         ProjectEntity projectEntity = null;
         UserEntity userEntity;
+        UpdateSelectDto updateSelectDto = null;
+        ProfileEntity profileEntity;
+        UserStatusEntity userStatusEntity;
         List<ActivityEntity> activityEntities = new ArrayList<>();
+        List<UserEntity> userEntityList = new ArrayList<>();
+        List<UserEntity> userEntityList1 = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(jString);
             String projectName = jsonObject.getString("projectName");
@@ -201,7 +207,20 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response = new Response("SUCCESS", projectEntity.getUserEntitySet());
+        try {
+            JSONObject jsonObject = new JSONObject(jString);
+            String projectName = jsonObject.getString("projectName");
+            userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
+            profileEntity = profileService.getProfileById(Long.valueOf(2));
+            projectEntity = projectService.getProjectByName(projectName);
+            userEntityList = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
+            profileEntity = profileService.getProfileById(Long.valueOf(3));
+            userEntityList1 = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
+        } catch (Exception e) {
+
+        }
+        updateSelectDto = new UpdateSelectDto(userEntityList, userEntityList1, projectEntity.getUserEntitySet());
+        response = new Response("SUCCESS", updateSelectDto);
         return response;
 
     }

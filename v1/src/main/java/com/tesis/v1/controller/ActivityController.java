@@ -6,6 +6,7 @@ import com.tesis.v1.repository.ActivityStatusRepository;
 import com.tesis.v1.repository.UserRepository;
 import com.tesis.v1.service.*;
 import com.tesis.v1.to.Response;
+import com.tesis.v1.to.UpdateSelectDto;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -191,8 +192,12 @@ public class ActivityController {
     @ResponseBody
     public Response deleteUserOfActivity (@RequestBody String jString) {
         Response response;
+        UpdateSelectDto updateSelectDto = null;
         ActivityEntity activityEntity = null;
+        List<UserEntity> userEntityList = new ArrayList<>();
         UserEntity userEntity;
+        ProfileEntity profileEntity;
+        UserStatusEntity userStatusEntity;
         try {
             JSONObject jsonObject = new JSONObject(jString);
             long idActivity = jsonObject.getLong("idActivity");
@@ -205,7 +210,15 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        response = new Response("SUCCESS", activityEntity.getUserEntitySet());
+        try {
+            userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
+            profileEntity = profileService.getProfileById(Long.valueOf(3));
+            userEntityList = userService.getUsersByProfileAndProjectAndNotInTheActivity(profileEntity, userStatusEntity, activityEntity.getProjectEntity(), activityEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        updateSelectDto = new UpdateSelectDto(activityEntity.getUserEntitySet(), userEntityList);
+        response = new Response("SUCCESS", updateSelectDto);
         return response;
     }
 

@@ -94,7 +94,8 @@
                                     <div id="divResponsable">
                                         <label class = "label-date">Responsable</label>
                                         <div id="selectResponsable">
-                                            <select  class="form-control" id="responsable" style="width: 95%; float: left; text-align-last:center" th:object="${activityEntity.userEntitySet}"  th:name="userEntityResponsablesActivity" required="true" >
+                                            <select  class="form-control" id="responsable" style="width: 95%; float: left; text-align-last:center" th:object="${activityEntity.userEntitySet}"  th:name="responsable" required="true" >
+                                                <option value="0">Responsable</option>
                                                 <option th:each="userList : ${activityEntity.userEntitySet}"
                                                         th:text=" ${userList.fullName}"
                                                         th:value="${userList.idUser}"
@@ -107,7 +108,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Responsable a Agregar</label>
-                                    <select  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
+                                    <select id="userEntity"  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
                                         <option value="0">Seleccione el Responsable a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
@@ -133,6 +134,7 @@
         var user = $('#responsable option:selected').val();
         var idActivity = $('#idActivity').val();
         var activityName = $('#activityName').val();
+        $("#responsable option[value=0]").attr("selected", true);
         var url = '/deleteUserOfActivity';
         var data = {
             idActivity : idActivity,
@@ -146,20 +148,25 @@
             data : JSON.stringify(data),
             success : function (response) {
                 if (response.status === "SUCCESS") {
-                    window.location.href = activityName;
+                    var responsable = document.getElementsByName("responsable")[0];
+                    var userEntity = document.getElementsByName("userEntity")[0];
+                    //Recursos en la actividad
+                    $('#responsable option').hide();
+                    for (value in response.data.userEntitySet1) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntitySet1[value].fullName;
+                        option.value = response.data.userEntitySet1[value].idUser;
+                        responsable.add(option);
 
-                    //Actualizacion dinamica del select despues del delete
-                    /*var userEntities = Object.assign({}, response.data);
-                    // var userEntities = JSON.stringify(response.data);
-                    $('#selectLiderActual').hide();
-                    $('#divLiderActual').append(`<select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:object="${userEntities}" th:name="userEntity" required="true" >\n` +
-                        `                                                <option th:each="userList : ${userEntities}" \n` +
-                        `                                                        \n` +
-                        `                                                        >\n` +
-                        `                                                </option>`);
-
-                    $('#lideres').append(userEntities);
-                    $('#lideres').prop("","");*/
+                    }
+                    //Recursos que no estan en la actividad
+                    $('#userEntity option').hide();
+                    for (value in response.data.userEntityList1) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntityList1[value].fullName;
+                        option.value = response.data.userEntityList1[value].idUser
+                        userEntity.add(option);
+                    }
                 }
                 console.log('ss');
             },

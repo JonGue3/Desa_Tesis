@@ -73,7 +73,8 @@
                                     <div id="divLiderActual">
                                         <label class = "label-date">Lider Actual</label>
                                         <div id="selectLiderActual">
-                                            <select  class="form-control" id="lideres" style="width: 95%; float: left; text-align-last:center"  th:name="userEntityLideresInProject" required="true" >
+                                            <select  class="form-control" th:name="lideres" id="lideres" style="width: 95%; float: left; text-align-last:center" required="true" >
+                                                <option value="0">Lideres asignados</option>
                                                 <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2} "
                                                         th:text=" ${userList.fullName}"
                                                         th:value="${userList.idUser}"
@@ -87,7 +88,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Lider a Agregar</label>
-                                    <select  class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
+                                    <select id="liderAgregar" class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
                                         <option value="0">Seleccione el Lider a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
@@ -99,8 +100,8 @@
                                     <div id="divRecursos">
                                         <label class = "label-date">Recursos</label>
                                         <div id="selectRecursos">
-                                            <select  class="form-control" id="recursos" style="width: 95%; float: left; text-align-last:center"  th:name="userEntityRecursosInProject" required="true" >
-                                                <option value="0">Seleccione el Recurso</option>
+                                            <select  class="form-control" id="recursos" style="width: 95%; float: left; text-align-last:center"  th:name="recursos" required="true" >
+                                                <option value="0">Recursos Asignados</option>
                                                 <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 3} "
                                                         th:text=" ${userList.fullName}"
                                                         th:value="${userList.idUser}"
@@ -113,7 +114,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class = "label-date">Recurso a Agregar</label>
-                                    <select  class="form-control" style="text-align-last:center"  th:object="${userEntityListRecursos}" th:name="userEntityRecurso" required="false" >
+                                    <select id="recursosAgregar"  class="form-control" style="text-align-last:center"  th:object="${userEntityListRecursos}" th:name="userEntityRecurso" required="false" >
                                         <option value="0">Seleccione el Recurso a agregar</option>
                                         <option th:each="userList : ${userEntityListRecursos}"
                                                 th:text=" ${userList.fullName}"
@@ -138,6 +139,7 @@
         debugger;
         var user = $('#lideres option:selected').val();
         var projectName = $('#projectName').val();
+        $("#lideres option[value=0]").attr("selected", true);
         var url = '/deleteUserOfProject';
         var data = {
             projectName : projectName,
@@ -151,20 +153,46 @@
             data : JSON.stringify(data),
             success : function (response) {
                 if (response.status === "SUCCESS") {
-                    window.location.href = projectName;
-
-                    //Actualizacion dinamica del select despues del delete
-                    /*var userEntities = Object.assign({}, response.data);
-                    // var userEntities = JSON.stringify(response.data);
-                    $('#selectLiderActual').hide();
-                    $('#divLiderActual').append(`<select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:object="${userEntities}" th:name="userEntity" required="true" >\n` +
-                        `                                                <option th:each="userList : ${userEntities}" \n` +
-                        `                                                        \n` +
-                        `                                                        >\n` +
-                        `                                                </option>`);
-
-                    $('#lideres').append(userEntities);
-                    $('#lideres').prop("","");*/
+                    var lideres = document.getElementsByName("lideres")[0];
+                    var userEntity = document.getElementsByName("userEntity")[0];
+                    var recursos = document.getElementsByName("recursos")[0];
+                    var userEntityRecurso = document.getElementsByName("userEntityRecurso")[0];
+                    //Lideres en el proyecto
+                    $('#lideres option').hide();
+                    for (value in response.data.userEntitySet) {
+                        var option = document.createElement("option");
+                        if (response.data.userEntitySet[value].profileEntity.idProfile == 2) {
+                            option.text = response.data.userEntitySet[value].fullName;
+                            option.value = response.data.userEntitySet[value].idUser
+                            lideres.add(option);
+                        }
+                    }
+                    //Lideres que no estan en el proyecto
+                    $('#liderAgregar option').hide();
+                    for (value in response.data.userEntityList) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntityList[value].fullName;
+                        option.value = response.data.userEntityList[value].idUser
+                        userEntity.add(option);
+                    }
+                    //Recursos en el proyecto
+                    $('#recursos option').hide();
+                    for (value in response.data.userEntitySet) {
+                        var option = document.createElement("option");
+                        if (response.data.userEntitySet[value].profileEntity.idProfile == 3) {
+                            option.text = response.data.userEntitySet[value].fullName;
+                            option.value = response.data.userEntitySet[value].idUser
+                            recursos.add(option);
+                        }
+                    }
+                    //Recursos que no estan en el proyecto
+                    $('#recursosAgregar option').hide();
+                    for (value in response.data.userEntityListRecusos) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntityListRecusos[value].fullName;
+                        option.value = response.data.userEntityListRecusos[value].idUser
+                        userEntityRecurso.add(option);
+                    }
                 }
                 console.log('ss');
             },
@@ -178,6 +206,7 @@
         debugger;
         var user = $('#recursos option:selected').val();
         var projectName = $('#projectName').val();
+        $("#recursos option[value=0]").attr("selected", true);
         var url = '/deleteUserOfProject';
         var data = {
             projectName : projectName,
@@ -191,20 +220,46 @@
             data : JSON.stringify(data),
             success : function (response) {
                 if (response.status === "SUCCESS") {
-                    window.location.href = projectName;
-
-                    //Actualizacion dinamica del select despues del delete
-                    /*var userEntities = Object.assign({}, response.data);
-                    // var userEntities = JSON.stringify(response.data);
-                    $('#selectLiderActual').hide();
-                    $('#divLiderActual').append(`<select  class="form-control" id="lideres" style="width: 95%; float: left;"  th:object="${userEntities}" th:name="userEntity" required="true" >\n` +
-                        `                                                <option th:each="userList : ${userEntities}" \n` +
-                        `                                                        \n` +
-                        `                                                        >\n` +
-                        `                                                </option>`);
-
-                    $('#lideres').append(userEntities);
-                    $('#lideres').prop("","");*/
+                    var lideres = document.getElementsByName("lideres")[0];
+                    var userEntity = document.getElementsByName("userEntity")[0];
+                    var recursos = document.getElementsByName("recursos")[0];
+                    var userEntityRecurso = document.getElementsByName("userEntityRecurso")[0];
+                    //Lideres en el proyecto
+                    $('#lideres option').hide();
+                    for (value in response.data.userEntitySet) {
+                        var option = document.createElement("option");
+                        if (response.data.userEntitySet[value].profileEntity.idProfile == 2) {
+                            option.text = response.data.userEntitySet[value].fullName;
+                            option.value = response.data.userEntitySet[value].idUser
+                            lideres.add(option);
+                        }
+                    }
+                    //Lideres que no estan en el proyecto
+                    $('#liderAgregar option').hide();
+                    for (value in response.data.userEntityList) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntityList[value].fullName;
+                        option.value = response.data.userEntityList[value].idUser
+                        userEntity.add(option);
+                    }
+                    //Recursos en el proyecto
+                    $('#recursos option').hide();
+                    for (value in response.data.userEntitySet) {
+                        var option = document.createElement("option");
+                        if (response.data.userEntitySet[value].profileEntity.idProfile == 3) {
+                            option.text = response.data.userEntitySet[value].fullName;
+                            option.value = response.data.userEntitySet[value].idUser
+                            recursos.add(option);
+                        }
+                    }
+                    //Recursos que no estan en el proyecto
+                    $('#recursosAgregar option').hide();
+                    for (value in response.data.userEntityListRecusos) {
+                        var option = document.createElement("option");
+                        option.text = response.data.userEntityListRecusos[value].fullName;
+                        option.value = response.data.userEntityListRecusos[value].idUser
+                        userEntityRecurso.add(option);
+                    }
                 }
                 console.log('ss');
             },
@@ -212,7 +267,6 @@
                 console.log("ERROR");
             }
         });
-
     });
 </script>
 
