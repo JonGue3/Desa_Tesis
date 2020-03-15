@@ -21,7 +21,7 @@
             </div>
             <div class="form-group">
                 <select class="form-control" th:object="${genderEntityList}" th:name="genderEntity" required="true">
-                    <option value="">Seleccione</option>
+                    <option value="0">Seleccione</option>
                     <option th:each="genderList : ${genderEntityList}"
                             th:text=" ${genderList.description}"
                             th:value="${genderList.idGender}"

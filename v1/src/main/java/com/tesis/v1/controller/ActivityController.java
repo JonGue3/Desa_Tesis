@@ -169,6 +169,7 @@ public class ActivityController {
         List<ActivityEntity> activityEntities = new ArrayList<>();
         ActivityEntity activityEntity1 = null;
         Set<ActivityEntity> activityEntitySet = new HashSet<>();
+        ProjectEntity projectEntity = null;
         try {
             activityEntity1 = activityService.getActivityById(activityEntity.getIdActivity());
             activityEntity.setUserEntitySet(activityEntity1.getUserEntitySet());
@@ -181,6 +182,11 @@ public class ActivityController {
                 activityEntitySet.add(activityEntity);
                 userEntity.setActivityEntitySet(activityEntitySet);
                 userRepository.save(userEntity);
+            }
+            if (activityEntity.getActivityStatusEntity().getIdActivityStatus() == 3) {
+                projectEntity = activityEntity.getProjectEntity();
+                projectEntity.setFinishedActivities(projectEntity.getFinishedActivities() + activityEntity.getActivityPointsEntity().getPoints());
+                projectService.saveProject(projectEntity);
             }
         } catch (Exception e) {
             e.printStackTrace();

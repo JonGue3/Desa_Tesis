@@ -96,6 +96,7 @@ public class ProjectController {
         List<UserEntity> userEntityListAdmin = new ArrayList<>();
         try {
             //Guardo Project
+            projectEntity.setFinishedActivities(0);
             projectEntity = projectService.saveProject(projectEntity);
             //Guardo el project en el lider
             projectEntityList = projectService.getProjectsByUser(userEntity);
