@@ -35,8 +35,6 @@ public class UserController {
     @Autowired
     private GenderService genderService;
     @Autowired
-    private PropertyService propertyService;
-    @Autowired
     private ProjectService projectService;
 
     @GetMapping("/getUserList")

@@ -151,7 +151,11 @@ public class ActivityController {
 
         modelAndView.addObject("modalCreateActivitySuccess", true);
         modelAndView.addObject("projectEntityList", projectEntityList);
-        modelAndView.setViewName("projects");
+        if (userEntityAdmin.getProfileEntity().getIdProfile() != 3) {
+            modelAndView.setViewName("projects");
+        } else {
+            modelAndView.setViewName("seeProjects");
+        }
 //        return loginController.getMenu(httpServletRequest);
         return modelAndView;
     }
@@ -228,7 +232,11 @@ public class ActivityController {
         }
         modelAndView.addObject("projectEntityList",projectEntityList);
         modelAndView.addObject("modalEditActivitySuccess",true);
-        modelAndView.setViewName("projects");
+        if (userEntityAdmin.getProfileEntity().getIdProfile() != 3) {
+            modelAndView.setViewName("projects");
+        } else {
+            modelAndView.setViewName("seeProjects");
+        }
     //    return loginController.getMenu(httpServletRequest);
         return  modelAndView;
     }

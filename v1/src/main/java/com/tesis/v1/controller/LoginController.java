@@ -133,7 +133,6 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         httpServletRequest.getSession().setAttribute("menuEntityList", menuEntityList);
         httpServletRequest.getSession().setAttribute("transactionEntityList", transactionEntityList);
         httpServletRequest.getSession().setAttribute("userEntity", userEntity);
@@ -141,7 +140,11 @@ public class LoginController {
         modelAndView.addObject("userEntity", userEntity);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
         modelAndView.addObject("menuEntityList", menuEntityList);
-        modelAndView.setViewName("projects");
+        if (userEntity.getProfileEntity() == null || userEntity.getProfileEntity().getIdProfile() != 3) {
+            modelAndView.setViewName("projects");
+        } else {
+            modelAndView.setViewName("seeProjects");
+        }
         return modelAndView;
     }
 }
