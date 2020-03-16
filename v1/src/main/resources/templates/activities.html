@@ -95,6 +95,7 @@
                                     <thead>
                                     <tr>
                                         <!--<th style="width: 1%" class="text-center">No.</th>-->
+                                        <th style="display:none;">Id</th>
                                         <th>Nombre</th>
                                         <th class="text-center">Proyecto</th>
                                         <th class="text-center">Puntos</th>
@@ -107,6 +108,7 @@
                                     <tbody>
                                     <tr style="cursor:pointer" th:each="activity : ${activityEntityList}">
                                         <!--<td class="text-center">1</td>-->
+                                        <td style="display: none" th:text="${activity.idActivity}"></td>
                                         <td th:text="${activity.activityName}"></td>
                                         <td th:text="${activity.projectEntity.projectName}"></td>
                                         <td class="text-center" th:text="${activity.activityPointsEntity.points}"></td>
@@ -162,6 +164,7 @@
     $(document).ready(function() {
 
         $('#tableActivities').on('click', 'tr', function () {
+            debugger;
             var table = $('#tableActivities').DataTable();
             $(this).toggleClass('selected');
             var pos = table.row(this).index();

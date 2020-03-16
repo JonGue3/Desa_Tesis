@@ -28,6 +28,7 @@
                                 <table id="tableProjects" class="table table-hover margin bottom">
                                     <thead>
                                     <tr>
+                                        <th style="display:none;">Id</th>
                                         <th>Nombre</th>
                                         <th class="text-center">Total de Puntos</th>
                                         <th class="text-center">Puntos Alcanzados</th>
@@ -37,6 +38,7 @@
                                     </thead>
                                     <tbody>
                                     <tr style="cursor:pointer" th:each="project : ${projectEntityList}">
+                                        <td style="display: none" th:text="${project.idProject}"></td>
                                         <td th:text="${project.projectName}"></td>
                                         <td class="text-center" th:text="${project.totalActivities}"></td>
                                         <td class="text-center"><span class="label label-primary"
@@ -218,6 +220,7 @@
     $(document).ready(function () {
 
         $('#tableProjects').on('click', 'tr', function () {
+            debugger;
             var table = $('#tableProjects').DataTable();
             $(this).toggleClass('selected');
             var pos = table.row(this).index();

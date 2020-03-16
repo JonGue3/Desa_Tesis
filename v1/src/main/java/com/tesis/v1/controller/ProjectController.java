@@ -160,8 +160,8 @@ public class ProjectController {
         return modelAndView;
     }
 
-    @GetMapping("/editProject/{projectName}")
-    public ModelAndView editProject(@PathVariable @Valid String projectName) {
+    @GetMapping("/editProject/{idProject}")
+    public ModelAndView editProject(@PathVariable @Valid long idProject) {
         ModelAndView modelAndView = new ModelAndView();
         ProjectEntity projectEntity = null;
         List<UserEntity> userEntityList = new ArrayList<>();
@@ -171,7 +171,7 @@ public class ProjectController {
         try {
             userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
             profileEntity = profileService.getProfileById(Long.valueOf(2));
-            projectEntity = projectService.getProjectByName(projectName);
+            projectEntity = projectService.getProjectById(idProject);
             userEntityList = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);
             profileEntity = profileService.getProfileById(Long.valueOf(3));
             userEntityList1 = userService.getUsersByProfileAndNotInTheProject(profileEntity, userStatusEntity, projectEntity);

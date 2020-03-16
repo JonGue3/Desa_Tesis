@@ -120,6 +120,30 @@
                                 <button type="submit" class="btn btn-primary block registerNewUser-right m-b" style="margin-top: 20px;">Guardar</button>
                             </form>
                         </div>
+                        <div class="modal fade" style="margin-top: 50px;" id="modalDeleteRecursoAcitivity">
+                            <div class="modal-dialog modal-center">
+                                <!-- Modal content-->
+                                <div class="modal-content radiusModal">
+                                    <div class="modal-header text-center">
+                                        <img style="float: left; width: 45px" th:src="@{/img/icons8-ok.png}"/>
+                                        <h3 class="modal-title headerCenterWithImageModal"
+                                            th:utext="#{mensaje.header.estimado.usuario}"/>
+                                    </div>
+                                    <div class="modal-body x_content">
+                                        <div style="display: inline">
+                                            <div class="col-sm-1"></div>
+                                            <p  style="text-align: center" th:utext="#{mensaje.delete.recurso.actividad}"/>
+                                            <div class="col-sm-1"></div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="button" class="btn btn-primary " style="width: 40%" data-dismiss="modal">Cerrar</button>
+                                    </div>
+                                    </p>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -148,6 +172,7 @@
             data : JSON.stringify(data),
             success : function (response) {
                 if (response.status === "SUCCESS") {
+                    $('#modalDeleteRecursoAcitivity').modal("show");
                     var responsable = document.getElementsByName("responsable")[0];
                     var userEntity = document.getElementsByName("userEntity")[0];
                     //Recursos en la actividad

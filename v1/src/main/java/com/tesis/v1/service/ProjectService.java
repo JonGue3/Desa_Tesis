@@ -44,4 +44,14 @@ public class ProjectService {
         }
         return projectEntity;
     }
+
+    public ProjectEntity getProjectById(long idProject) {
+        ProjectEntity projectEntity = null;
+        try {
+            projectEntity = projectRepository.getOne(idProject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectEntity;
+    }
 }

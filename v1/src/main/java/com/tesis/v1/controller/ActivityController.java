@@ -160,8 +160,8 @@ public class ActivityController {
         return modelAndView;
     }
 
-    @GetMapping("/editActivity/{activityName}")
-    public ModelAndView editActivity(@PathVariable @Valid String activityName) {
+    @GetMapping("/editActivity/{idActivity}")
+    public ModelAndView editActivity(@PathVariable @Valid long idActivity) {
         ModelAndView modelAndView = new ModelAndView();
         List<UserEntity> userEntityList = new ArrayList<>();
         ProfileEntity profileEntity;
@@ -170,7 +170,7 @@ public class ActivityController {
         List<ActivityStatusEntity> activityStatusEntities = new ArrayList<>();
         List<ActivityPointsEntity> activityPointsEntities = new ArrayList<>();
         try {
-            activityEntity = activityService.getActivityEntitiesByProjectEntity(activityName);
+            activityEntity = activityService.getActivityById(idActivity);
             profileEntity = profileService.getProfileById(Long.valueOf(3));
             activityStatusEntities = activityStatusService.findAll();
             activityPointsEntities = activityPointsService.findAll();
