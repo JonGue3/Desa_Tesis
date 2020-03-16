@@ -29,10 +29,12 @@
     width: 40%;
     float: right;
 }
+
 .registerNewUser-left {
     width: 40%;
     float: left;
 }
+
 .form-register {
     padding: 30px;
     padding-bottom: 70px;
@@ -40,7 +42,7 @@
     border-radius: 5px;
 }
 
-.logoSize{
+.logoSize {
     margin-bottom: 53px;
     margin-top: 42px;
     width: 300px;
@@ -50,7 +52,7 @@ input.parsley-error {
     border: 1px solid red;
 }
 
-.parsley-errors-list{
+.parsley-errors-list {
     list-style: none;
     color: red;
 }
@@ -62,11 +64,12 @@ input.parsley-error {
 .label-date {
     color: #0f7b9f;
 }
-.centerInputWidth100{
+
+.centerInputWidth100 {
     text-align: center;
 }
 
-.ibox-list{
+.ibox-list {
     background-color: #ffffff;
     border-bottom: solid;
     border-color: #e7eaec;
@@ -81,6 +84,16 @@ input.parsley-error {
     clear: both;
 }
 
-.centerSelectInputWidth100{
+.centerSelectInputWidth100 {
     text-align-last: center;
+}
+
+.radiusModal {
+    background-color: #F5F5F5;
+    border-radius: 29px;
+}
+
+.headerCenterWithImageModal {
+    text-align: left;
+    width: 19pc;
 }

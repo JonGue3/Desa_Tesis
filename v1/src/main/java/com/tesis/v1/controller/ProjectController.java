@@ -75,7 +75,7 @@ public class ProjectController {
             e.printStackTrace();
         }
         modelAndView.addObject("userEntity", userEntity);
-        modelAndView.addObject("userEntityList",userEntityList);
+        modelAndView.addObject("userEntityList", userEntityList);
         modelAndView.addObject("transactionEntityList", transactionEntityList);
         modelAndView.addObject("menuEntityList", menuEntityList);
         modelAndView.setViewName("createProject");
@@ -86,6 +86,9 @@ public class ProjectController {
     public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity,
                                     HttpServletRequest httpServletRequest) {
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
+        List<ProjectEntity> projectEntityListForUser = new ArrayList<>();
+        UserEntity userEntityAdmin = new UserEntity();
+        ModelAndView modelAndView = new ModelAndView();
         List<UserEntity> userEntityList = new ArrayList<>();
         ProfileEntity profileEntity;
         UserStatusEntity userStatusEntity;
@@ -94,6 +97,8 @@ public class ProjectController {
         Set<ProjectEntity> projectEntitySet2 = new HashSet<>();
         List<ProjectEntity> projectEntityListLider = new ArrayList<>();
         List<UserEntity> userEntityListAdmin = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         try {
             //Guardo Project
             projectEntity.setFinishedActivities(0);
@@ -133,15 +138,30 @@ public class ProjectController {
             }
 //            userRepository.saveAll(userEntityListAdmin);
         } catch (ConcurrentModificationException c) {
+            c.printStackTrace();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            projectEntityList = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        return loginController.getMenu(httpServletRequest);
+        modelAndView.addObject("projectEntityList", projectEntityList);
+        modelAndView.addObject("modalCreateProjectSuccess", true);
+        modelAndView.setViewName("projects");
+        return modelAndView;
     }
 
     @GetMapping("/editProject/{projectName}")
-    public ModelAndView editProject (@PathVariable @Valid String projectName) {
+    public ModelAndView editProject(@PathVariable @Valid String projectName) {
         ModelAndView modelAndView = new ModelAndView();
         ProjectEntity projectEntity = null;
         List<UserEntity> userEntityList = new ArrayList<>();
@@ -167,7 +187,7 @@ public class ProjectController {
 
     @PostMapping("/deleteUserOfProject")
     @ResponseBody
-    public Response deleteUserOfProject (@RequestBody String jString) {
+    public Response deleteUserOfProject(@RequestBody String jString) {
         Response response;
         ProjectEntity projectEntity = null;
         UserEntity userEntity;
@@ -228,11 +248,16 @@ public class ProjectController {
 
     @PostMapping("/saveEditProject")
     public ModelAndView saveEditProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity,
-                                        @RequestParam("userEntityRecurso") UserEntity userEntityRecurso ,HttpServletRequest httpServletRequest) {
+                                        @RequestParam("userEntityRecurso") UserEntity userEntityRecurso, HttpServletRequest httpServletRequest) {
         List<ProjectEntity> projectEntityList = new ArrayList<>();
+        ModelAndView modelAndView  = new ModelAndView();
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
         ProjectEntity projectEntityUserSet = null;
         Set<ProjectEntity> projectEntitySet1 = new HashSet<>();
+        UserEntity userEntityAdmin = new UserEntity();
+        List<ProjectEntity> projectEntityList1 = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         try {
             projectEntityUserSet = projectService.getProjectByName(projectEntity.getProjectName());
             projectEntity.setUserEntitySet(projectEntityUserSet.getUserEntitySet());
@@ -259,11 +284,25 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            projectEntityList1 = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntityList",projectEntityList1);
+        modelAndView.addObject("modalEditProjectSuccess",true);
+        modelAndView.setViewName("projects");
+        //return loginController.getMenu(httpServletRequest);
+        return modelAndView;
     }
 
     @GetMapping("/statusProjects")
-    public ModelAndView statusProjects () {
+    public ModelAndView statusProjects() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();

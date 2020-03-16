@@ -38,15 +38,16 @@
 <div class="modal fade" th:if="${modalRegisterSucces!=null}" style="margin-top: 50px" id="modalRegisterSucces">
     <div class="modal-dialog modal-center">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content radiusModal">
             <div class="modal-header text-center">
-                <h5 class="modal-title" style="text-align: center"
+                <img style="float: left; width: 45px" th:src="@{/img/icons8-ok.png}"/>
+                <h3 class="modal-title headerCenterWithImageModal"
                     th:utext="#{mensaje.header.estimado.usuario}"/>
             </div>
             <div class="modal-body x_content">
                 <div style="display: inline">
                     <div class="col-sm-1"></div>
-                    <p th:utext="#{mensaje.registro.exitoso}"/>
+                    <p  style="text-align: center" th:utext="#{mensaje.registro.exitoso}"/>
                     <div class="col-sm-1"></div>
                 </div>
             </div>

@@ -14,8 +14,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -32,6 +34,10 @@ public class UserController {
     private LoginController loginController;
     @Autowired
     private GenderService genderService;
+    @Autowired
+    private PropertyService propertyService;
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping("/getUserList")
     public ModelAndView getUserList() {
@@ -106,17 +112,17 @@ public class UserController {
         }
 
         try {
-            userStatusEntityList=userStatusService.getAllUserStatus();
+            userStatusEntityList = userStatusService.getAllUserStatus();
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            genderEntityList=genderService.getAllGender();
+            genderEntityList = genderService.getAllGender();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        genderSelected= userEntity.getGenderEntity().getDescription();
-        userStatusSelected= userEntity.getUserStatusEntity().getDescription();
+        genderSelected = userEntity.getGenderEntity().getDescription();
+        userStatusSelected = userEntity.getUserStatusEntity().getDescription();
         profileSelected = userEntity.getProfileEntity().getDescription();
         modelAndView.addObject("genderSelected", genderSelected);
         modelAndView.addObject("profileSelected", profileSelected);
@@ -125,6 +131,7 @@ public class UserController {
         modelAndView.addObject("profileEntityList", profileEntityList);
         modelAndView.addObject("userStatusEntityList", userStatusEntityList);
         modelAndView.addObject("genderEntityList", genderEntityList);
+
         modelAndView.setViewName("editUser");
         return modelAndView;
     }
@@ -153,22 +160,47 @@ public class UserController {
 
     @PostMapping("/saveAssingRole")
     public ModelAndView saveAssingRole(@ModelAttribute("userEntity") @Valid UserEntity userEntityFromForm, HttpServletRequest httpServletRequest) {
+        ModelAndView modelAndView = new ModelAndView();
         UserEntity userEntity = null;
+        UserEntity userEntityAdmin = new UserEntity();
         userEntity = userService.getUserByUserName(userEntityFromForm.getUsername());
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
         userEntity.setProfileEntity(userEntityFromForm.getProfileEntity());
         UserStatusEntity userStatusEntity = new UserStatusEntity();
         userStatusEntity = userStatusService.getUserStatusByIdUserStatus(1);
         userEntity.setUserStatusEntity(userStatusEntity);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         try {
             userService.saveUserAssignedRole(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            projectEntityList = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("modalSaveAssignRole", true);
+        modelAndView.addObject("projectEntityList", projectEntityList);
+//        return loginController.getMenu(httpServletRequest);
+        modelAndView.setViewName("projects");
+        return modelAndView;
     }
+
     @PostMapping("/saveEditUser")
     public ModelAndView saveEditUser(@ModelAttribute("userEntity") @Valid UserEntity userEntityFromForm, HttpServletRequest httpServletRequest) {
+        ModelAndView modelAndView = new ModelAndView();
         UserEntity userEntity = null;
+        UserEntity userEntityAdmin = new UserEntity();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
         UserStatusEntity userStatusEntity = new UserStatusEntity();
         userEntity = userService.getUserByUserName(userEntityFromForm.getUsername());
         userEntity.setFullName(userEntityFromForm.getFullName());
@@ -182,6 +214,34 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            projectEntityList = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntityList", projectEntityList);
+        modelAndView.addObject("modalSuccessEditUser", true);
+        modelAndView.setViewName("projects");
+//        return loginController.getMenu(httpServletRequest);
+        return modelAndView;
     }
+
+//    @PostMapping("/recoverPassword")
+//    public  ModelAndView recoverPassword(){
+//
+//        String token = UUID.randomUUID().toString();
+//        try {
+//            propertyService.getIpUrl();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String ipUrl = prop.getProperty ("spring.server.ip");
+//        String resetURL = "";
+//    }
 }

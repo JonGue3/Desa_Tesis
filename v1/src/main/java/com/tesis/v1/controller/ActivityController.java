@@ -97,19 +97,24 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        modelAndView.addObject("projectEntity",projectEntity);
-        modelAndView.addObject("userEntityList",userEntityList);
-        modelAndView.addObject("activityStatusEntities",activityStatusEntities);
-        modelAndView.addObject("activityPointsEntities",activityPointsEntities);
+        modelAndView.addObject("projectEntity", projectEntity);
+        modelAndView.addObject("userEntityList", userEntityList);
+        modelAndView.addObject("activityStatusEntities", activityStatusEntities);
+        modelAndView.addObject("activityPointsEntities", activityPointsEntities);
         modelAndView.setViewName("createActivity");
         return modelAndView;
     }
 
     @PostMapping("/saveActivity")
-    public ModelAndView saveActivity (@ModelAttribute("activityEntity") @Valid ActivityEntity activityEntity, @RequestParam("projectEntity") ProjectEntity projectEntity,
-                                      @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
+    public ModelAndView saveActivity(@ModelAttribute("activityEntity") @Valid ActivityEntity activityEntity, @RequestParam("projectEntity") ProjectEntity projectEntity,
+                                     @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
         List<ActivityEntity> activityEntities = new ArrayList<>();
+        ModelAndView modelAndView = new ModelAndView();
         Set<ActivityEntity> activityEntitySet = new HashSet<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserEntity userEntityAdmin = new UserEntity();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
 
         try {
             activityEntity.setProjectEntity(projectEntity);
@@ -133,11 +138,26 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            projectEntityList = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        modelAndView.addObject("modalCreateActivitySuccess", true);
+        modelAndView.addObject("projectEntityList", projectEntityList);
+        modelAndView.setViewName("projects");
+//        return loginController.getMenu(httpServletRequest);
+        return modelAndView;
     }
 
     @GetMapping("/editActivity/{activityName}")
-    public ModelAndView editActivity (@PathVariable @Valid String activityName) {
+    public ModelAndView editActivity(@PathVariable @Valid String activityName) {
         ModelAndView modelAndView = new ModelAndView();
         List<UserEntity> userEntityList = new ArrayList<>();
         ProfileEntity profileEntity;
@@ -167,9 +187,14 @@ public class ActivityController {
     @PostMapping("/saveEditActivity")
     public ModelAndView saveEditActivity(@ModelAttribute("activityEntity") @Valid ActivityEntity activityEntity, @RequestParam("userEntity") UserEntity userEntity, HttpServletRequest httpServletRequest) {
         List<ActivityEntity> activityEntities = new ArrayList<>();
+        ModelAndView modelAndView = new ModelAndView();
         ActivityEntity activityEntity1 = null;
         Set<ActivityEntity> activityEntitySet = new HashSet<>();
         ProjectEntity projectEntity = null;
+        UserEntity userEntityAdmin = new UserEntity();
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         try {
             activityEntity1 = activityService.getActivityById(activityEntity.getIdActivity());
             activityEntity.setUserEntitySet(activityEntity1.getUserEntitySet());
@@ -191,12 +216,26 @@ public class ActivityController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginController.getMenu(httpServletRequest);
+        try {
+            userEntityAdmin = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            projectEntityList = projectService.getProjectsByUser(userEntityAdmin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntityList",projectEntityList);
+        modelAndView.addObject("modalEditActivitySuccess",true);
+        modelAndView.setViewName("projects");
+    //    return loginController.getMenu(httpServletRequest);
+        return  modelAndView;
     }
 
     @PostMapping("/deleteUserOfActivity")
     @ResponseBody
-    public Response deleteUserOfActivity (@RequestBody String jString) {
+    public Response deleteUserOfActivity(@RequestBody String jString) {
         Response response;
         UpdateSelectDto updateSelectDto = null;
         ActivityEntity activityEntity = null;
@@ -229,7 +268,7 @@ public class ActivityController {
     }
 
     @GetMapping("/createActivityModel")
-    public ModelAndView createActivityModel (HttpServletRequest httpServletRequest) {
+    public ModelAndView createActivityModel(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
@@ -245,7 +284,7 @@ public class ActivityController {
     }
 
     @GetMapping("/editActivityModel")
-    public ModelAndView editActivityModel (HttpServletRequest httpServletRequest) {
+    public ModelAndView editActivityModel(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
