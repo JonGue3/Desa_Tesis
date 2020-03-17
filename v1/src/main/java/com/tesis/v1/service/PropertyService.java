@@ -103,7 +103,7 @@ public class PropertyService {
     public String getCuerpoCorreoRecuperarClave() throws IOException {
 
         Properties prop = openMessageProperty();
-        String contenidoCorreo = prop.getProperty("mensaje.correo.cuerpo.recuperar.clave.Responsable");
+        String contenidoCorreo = prop.getProperty("mensaje.correo.cuerpo.recuperar.clave");
         result = contenidoCorreo;
 
         return result;

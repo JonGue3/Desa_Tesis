@@ -279,6 +279,7 @@ public class UserController {
 
         } catch (MessagingException e) {
         }
+        modelAndView.addObject("modalSendEmailSuccess",true);
         modelAndView.setViewName("login");
         return modelAndView;
     }
@@ -295,31 +296,27 @@ public class UserController {
              userEntity = tokenEntity.getUserEntity();
             restartPasswordDto.setTokenDescription(token);
             modelAndView.addObject("userEntity",userEntity);
-            modelAndView.addObject("restartPasswordDto", restartPasswordDto);
+          //  modelAndView.addObject("restartPasswordDto", restartPasswordDto);
 
         } else {
             modelAndView.addObject("modalTokenExpired", true);
             modelAndView.setViewName("forgotPassword");
+            return modelAndView;
         }
         modelAndView.setViewName("restartPassword");
         return modelAndView;
     }
 
     @PostMapping("/saveNewPassword")
-    public ModelAndView saveNewPassword(@ModelAttribute(value = "restartPasswordDto") RestartPasswordDto restartPasswordDto,@ModelAttribute(value = "userEntity") UserEntity userEntity) {
-       // UserEntity userEntity = new UserEntity();
+    public ModelAndView saveNewPassword(@ModelAttribute(value = "userEntity") UserEntity userEntity) {
+       UserEntity newUserEntity = new UserEntity();
         ModelAndView modelAndView = new ModelAndView();
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        TokenEntity tokenEntity = null;
+        String newPassword=userEntity.getPassword();
+        newUserEntity=  userService.getUserById(userEntity.getIdUser());
+        //Set el nuevo password
+        newUserEntity.setPassword(newPassword);
         try {
-            tokenEntity = userService.obtainTokenByUser(restartPasswordDto.getTokenDescription());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-      //  userEntity = tokenEntity.getUserEntity();
-        userEntity.setPassword(passwordEncoder.encode(restartPasswordDto.getPassword()));
-        try {
-            userService.saveUser(userEntity);
+            userService.saveUser(newUserEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }

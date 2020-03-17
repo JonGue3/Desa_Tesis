@@ -102,7 +102,25 @@ public class LoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        try {
+            userEntityConsult=userService.obtainUserByEmail(userEntity.getEmail());
+            if(userEntityConsult!=null){
+                List<GenderEntity> genderEntityList = new ArrayList<>();
+                try {
+                    genderEntityList = genderService.getAllGender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                modelAndView.addObject("genderEntityList", genderEntityList);
+                UserEntity userEntity1 = new UserEntity();
+                modelAndView.addObject("userEntity", userEntity1);
+                modelAndView.setViewName("registerUser");
+                modelAndView.addObject("modalEmailExits", true);
+                return modelAndView;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             userService.saveUser(userEntity);
         } catch (Exception e) {
