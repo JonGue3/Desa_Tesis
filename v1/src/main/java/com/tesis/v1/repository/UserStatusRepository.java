@@ -1,4 +1,4 @@
-package com.tesis.v1.repository;
+    package com.tesis.v1.repository;
 
 import com.tesis.v1.entity.UserStatusEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
