@@ -14,7 +14,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByProfileEntityAndUserStatusEntity(ProfileEntity profileEntity, UserStatusEntity userStatusEntity);
     List<UserEntity> findByProfileEntity_IdProfileOrProfileEntity_IdProfile(long idLeader,long idConsultant);
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySetNotContaining(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);
-
+    UserEntity findByEmail(String email);
     UserEntity findByIdUser(long idUser);
 
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySet(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);

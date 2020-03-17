@@ -2,20 +2,23 @@ package com.tesis.v1.controller;
 
 import com.tesis.v1.entity.*;
 import com.tesis.v1.service.*;
+import com.tesis.v1.to.RestartPasswordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +39,11 @@ public class UserController {
     private GenderService genderService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private PropertyService propertyService;
+
+    @Autowired
+    private SendMailService sendMailService;
 
     @GetMapping("/getUserList")
     public ModelAndView getUserList() {
@@ -230,16 +238,94 @@ public class UserController {
         return modelAndView;
     }
 
-//    @PostMapping("/recoverPassword")
-//    public  ModelAndView recoverPassword(){
-//
-//        String token = UUID.randomUUID().toString();
-//        try {
-//            propertyService.getIpUrl();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        String ipUrl = prop.getProperty ("spring.server.ip");
-//        String resetURL = "";
-//    }
+    @PostMapping("/recoverPassword")
+    public ModelAndView recoverPassword(@ModelAttribute(value = "email") String email, HttpServletRequest httpServletRequest) {
+        ModelAndView modelAndView = new ModelAndView();
+        String token = UUID.randomUUID().toString();
+        String ip = "";
+        String resetURL = "";
+        UserEntity userEntity = new UserEntity();
+        try {
+            userEntity = userService.obtainUserByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (userEntity == null) {
+
+            modelAndView.addObject("modalNotFoundEmail", true);
+            modelAndView.setViewName("forgotPassword");
+            return modelAndView;
+        }
+        try {
+
+            ip = propertyService.getIpUrl();
+            String url = httpServletRequest.getScheme() + "://" + ip + ":" + httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
+            resetURL = url + "/recoverNewPassword?token=" + token;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            userService.createTokenRecoverPassword(userEntity, token);
+        } catch (Exception e) {
+        }
+        try {
+            String asuntoRecuperacion = userEntity.getUsername().concat(" - Solicitud de recuperación de contraseña");
+            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd'/'MM'/'yyyy");
+            String fecha = formatoFecha.format(new Date());
+            sendMailService.enviarMailEdicion(userEntity.getEmail(),
+                    asuntoRecuperacion, resetURL, fecha, null);
+
+
+        } catch (MessagingException e) {
+        }
+        modelAndView.setViewName("login");
+        return modelAndView;
+    }
+
+    @GetMapping("/recoverNewPassword")
+    public ModelAndView recoverNewPassword(@RequestParam(required = false) String token,
+                                           HttpServletRequest httpServletRequest) {
+        ModelAndView modelAndView = new ModelAndView();
+        UserEntity userEntity = null;
+        TokenEntity tokenEntity = new TokenEntity();
+        RestartPasswordDto restartPasswordDto = new RestartPasswordDto();
+        tokenEntity = userService.obtainTokenByUser(token);
+        if (!tokenEntity.isExpired()) {
+             userEntity = tokenEntity.getUserEntity();
+            restartPasswordDto.setTokenDescription(token);
+            modelAndView.addObject("userEntity",userEntity);
+            modelAndView.addObject("restartPasswordDto", restartPasswordDto);
+
+        } else {
+            modelAndView.addObject("modalTokenExpired", true);
+            modelAndView.setViewName("forgotPassword");
+        }
+        modelAndView.setViewName("restartPassword");
+        return modelAndView;
+    }
+
+    @PostMapping("/saveNewPassword")
+    public ModelAndView saveNewPassword(@ModelAttribute(value = "restartPasswordDto") RestartPasswordDto restartPasswordDto,@ModelAttribute(value = "userEntity") UserEntity userEntity) {
+       // UserEntity userEntity = new UserEntity();
+        ModelAndView modelAndView = new ModelAndView();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        TokenEntity tokenEntity = null;
+        try {
+            tokenEntity = userService.obtainTokenByUser(restartPasswordDto.getTokenDescription());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+      //  userEntity = tokenEntity.getUserEntity();
+        userEntity.setPassword(passwordEncoder.encode(restartPasswordDto.getPassword()));
+        try {
+            userService.saveUser(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("modalRestartPasswordSuccess", true);
+        modelAndView.setViewName("login");
+        return modelAndView;
+    }
+
 }

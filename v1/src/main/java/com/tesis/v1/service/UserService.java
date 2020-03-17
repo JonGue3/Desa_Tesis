@@ -1,12 +1,14 @@
 package com.tesis.v1.service;
 
 import com.tesis.v1.entity.*;
+import com.tesis.v1.repository.TokenRepository;
 import com.tesis.v1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     //Metodo que obtiene usuario mediante el nombre de usuario
     public UserEntity getUserByUserName(String username){
@@ -125,5 +130,48 @@ public class UserService {
             e.printStackTrace();
         }
         return userEntityList;
+    }
+    @Transactional
+    public Boolean createTokenRecoverPassword(UserEntity userEntity,String token){
+        String methodName = new Object(){}.getClass().getEnclosingMethod().getName();
+        try {
+            createTokenByUser(userEntity,token);
+        } catch (Exception e) {
+
+            return false;
+        }
+        return true;
+    }
+
+   @Transactional
+    public void createTokenByUser(UserEntity userEntity, String token) {
+        try {
+            TokenEntity myToken = new TokenEntity(token,userEntity);
+            tokenRepository.save(myToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public UserEntity obtainUserByEmail(String email){
+        UserEntity userEntity = new UserEntity();
+        try {
+            userEntity= userRepository.findByEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+
+    @Transactional
+    public TokenEntity obtainTokenByUser(String token){
+        TokenEntity tokenEntity = new TokenEntity();
+        try {
+            tokenEntity = tokenRepository.findByTokenDescription(token);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return tokenEntity;
     }
 }

@@ -1,17 +1,20 @@
 package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.context.annotation.Scope;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
 @Table(name = "T_TOKEN")
+@Scope(value = "prototype")
 public class TokenEntity {
-
+    private static final int EXPIRATION = 15 * 1; //expira en 15 minutos
     @Id
-    @SequenceGenerator(name="TOKEN_SEQ",sequenceName="TOKEN_SEQ", allocationSize=1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TOKEN_SEQ")
+    @SequenceGenerator(name = "TOKEN_SEQ", sequenceName = "TOKEN_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TOKEN_SEQ")
     @Column(name = "ID_TOKEN")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private long idToken;
@@ -26,7 +29,25 @@ public class TokenEntity {
     @JoinColumn(name = "ID_USER")
     private UserEntity userEntity;
 
+
+    private Date calculateExpiryDate(final int expiryTimeInMinutes) {
+        final Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(new Date().getTime());
+        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
+        return new Date(cal.getTime().getTime());
+    }
+
+    public boolean isExpired() {
+        return new Date().after(this.expiryDate);
+    }
+
     public TokenEntity() {
+    }
+
+    public TokenEntity(String tokenDescription, UserEntity userEntity) {
+        this.tokenDescription = tokenDescription;
+        this.userEntity = userEntity;
+        this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
     public TokenEntity(String tokenDescription, Date expiryDate, UserEntity userEntity) {
