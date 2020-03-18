@@ -215,7 +215,7 @@ public class UserController {
         String profileSelected;
         String genderSelected;
         try {
-            userEntityConsult=userService.obtainUserByEmail(userEntityFromForm.getEmail());
+            userEntityConsult=userService.obtainUserByEmailAndUsernameIsNot(userEntityFromForm.getEmail(), userEntityFromForm.getUsername());
             if(userEntityConsult!=null){
                 List<GenderEntity> genderEntityList = new ArrayList<>();
                 try {

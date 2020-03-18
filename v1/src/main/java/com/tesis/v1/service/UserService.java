@@ -163,6 +163,16 @@ public class UserService {
         return userEntity;
     }
 
+    public UserEntity obtainUserByEmailAndUsernameIsNot(String email, String username){
+        UserEntity userEntity = new UserEntity();
+        try {
+            userEntity= userRepository.findByEmailAndUsernameIsNot(email, username);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userEntity;
+    }
+
     @Transactional
     public TokenEntity obtainTokenByUser(String token){
         TokenEntity tokenEntity = new TokenEntity();

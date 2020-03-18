@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySetNotContaining(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);
     UserEntity findByEmail(String email);
     UserEntity findByIdUser(long idUser);
-
+    UserEntity findByEmailAndUsernameIsNot(String email, String username);
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySet(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity);
     List<UserEntity> findByProfileEntityAndUserStatusEntityAndProjectEntitySetAndActivityEntitySetNotContaining(ProfileEntity profileEntity, UserStatusEntity userStatusEntity, ProjectEntity projectEntity, ActivityEntity activityEntity);
 }
