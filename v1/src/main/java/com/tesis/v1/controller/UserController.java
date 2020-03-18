@@ -208,6 +208,49 @@ public class UserController {
         String currentPrincipalName = authentication.getName();
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         UserStatusEntity userStatusEntity = new UserStatusEntity();
+        UserEntity userEntityConsult = new UserEntity();
+        List<ProfileEntity> profileEntityList = new ArrayList<>();
+        List<UserStatusEntity> userStatusEntityList = new ArrayList<>();
+        String userStatusSelected;
+        String profileSelected;
+        String genderSelected;
+        try {
+            userEntityConsult=userService.obtainUserByEmail(userEntityFromForm.getEmail());
+            if(userEntityConsult!=null){
+                List<GenderEntity> genderEntityList = new ArrayList<>();
+                try {
+                    genderEntityList = genderService.getAllGender();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    profileEntityList = profileService.getAllProfiles();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    userStatusEntityList = userStatusService.getAllUserStatus();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                genderSelected = userEntityFromForm.getGenderEntity().getDescription();
+                userStatusSelected = userEntityFromForm.getUserStatusEntity().getDescription();
+                profileSelected = userEntityFromForm.getProfileEntity().getDescription();
+                modelAndView.addObject("genderSelected", genderSelected);
+                modelAndView.addObject("profileSelected", profileSelected);
+                modelAndView.addObject("userStatusSelected", userStatusSelected);
+                modelAndView.addObject("profileEntityList", profileEntityList);
+                modelAndView.addObject("userStatusEntityList", userStatusEntityList);
+                modelAndView.addObject("genderEntityList", genderEntityList);
+                modelAndView.addObject("userEntity", userEntityFromForm);
+                modelAndView.setViewName("editUser");
+                modelAndView.addObject("modalEmailExits", true);
+                return modelAndView;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         userEntity = userService.getUserByUserName(userEntityFromForm.getUsername());
         userEntity.setFullName(userEntityFromForm.getFullName());
         userEntity.setGenderEntity(userEntityFromForm.getGenderEntity());

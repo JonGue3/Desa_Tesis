@@ -17,84 +17,17 @@
         <div th:replace="fragments/headerDashboard :: header-body"/>
 
         <div class="wrapper wrapper-content">
-            <!--<div class="row">
-                <div class="col-lg-3">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <span class="label label-success float-right">Monthly</span>
-                            <h5>Income</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">40 886,200</h1>
-                            <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i></div>
-                            <small>Total income</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <span class="label label-info float-right">Annual</span>
-                            <h5>Orders</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">275,800</h1>
-                            <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i></div>
-                            <small>New orders</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <span class="label label-primary float-right">Today</span>
-                            <h5>visits</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">106,120</h1>
-                            <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i></div>
-                            <small>New visits</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="ibox ">
-                        <div class="ibox-title">
-                            <span class="label label-danger float-right">Low value</span>
-                            <h5>User activity</h5>
-                        </div>
-                        <div class="ibox-content">
-                            <h1 class="no-margins">80,600</h1>
-                            <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i></div>
-                            <small>In first month</small>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
             <div class="row" th:object="${activityEntityList}">
                 <div class="col-lg-12">
                     <div class="ibox ">
                         <div class="ibox-title">
                             <h5>Actividades</h5>
-                            <!--<div class="float-right">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-xs btn-white active">Today</button>
-                                    <button type="button" class="btn btn-xs btn-white">Monthly</button>
-                                    <button type="button" class="btn btn-xs btn-white">Annual</button>
-                                </div>
-                            </div>-->
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <!--<div class="col-lg-9">
-                                    <div class="flot-chart">
-                                        <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-                                    </div>
-                                </div>-->
                                 <table id="tableActivities" class="table table-hover margin bottom">
                                     <thead>
                                     <tr>
-                                        <!--<th style="width: 1%" class="text-center">No.</th>-->
                                         <th style="display:none;">Id</th>
                                         <th>Nombre</th>
                                         <th class="text-center">Proyecto</th>
@@ -114,7 +47,14 @@
                                         <td class="text-center" th:text="${activity.activityPointsEntity.points}"></td>
                                         <td class="text-center" th:text="${#dates.format(activity.startDate.getTime(), 'dd-MM-yyyy')}"></td>
                                         <td class="text-center" th:text="${#dates.format(activity.endingDate.getTime(), 'dd-MM-yyyy')}"></td>
-                                        <td class="text-center" th:text="${activity.activityStatusEntity.description}"></td>
+                                        <td class="text-center">
+                                            <span th:if="${activity.activityStatusEntity.idActivityStatus == 1}" class="label label-primary"
+                                                  th:text="${activity.activityStatusEntity.description}"></span>
+                                            <span th:if="${activity.activityStatusEntity.idActivityStatus == 2}" class="label label-warning"
+                                                  th:text="${activity.activityStatusEntity.description}"></span>
+                                            <span th:if="${activity.activityStatusEntity.idActivityStatus == 3}" class="label label-success"
+                                                  th:text="${activity.activityStatusEntity.description}"></span>
+                                        </td>
                                         <td class="text-center"><ul th:object="${activity.userEntitySet}" th:name="userEntity" >
                                             <li th:each="user : ${activity.userEntitySet}"
                                                     th:text=" ${user.fullName}"

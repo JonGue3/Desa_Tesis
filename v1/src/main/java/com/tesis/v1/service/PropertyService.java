@@ -75,7 +75,7 @@ public class PropertyService {
         Properties prop = openProperties();
 
         String ipUrl = prop.getProperty("spring.server.ip");
-      String   result = ipUrl;
+        String result = ipUrl;
 
         return result;
     }
