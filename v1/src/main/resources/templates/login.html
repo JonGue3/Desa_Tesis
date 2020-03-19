@@ -111,27 +111,59 @@
         </div>
     </div>
 </div>
+<!-- modal username or pasword incorrect-->
+<div class="modal fade" style="margin-top: 50px" id="modalLoginUnsuccess">
+    <div class="modal-dialog modal-center">
+        <!-- Modal content-->
+        <div class="modal-content radiusModal">
+            <div class="modal-header text-center">
+                <img style="float: left; width: 45px" th:src="@{/img/warning-5-48.png}"/>
+                <h3 class="modal-title headerCenterWithImageModal"
+                    th:utext="#{mensaje.header.estimado.usuario}"/>
+            </div>
+            <div class="modal-body x_content">
+                <div style="display: inline">
+                    <div class="col-sm-1"></div>
+                    <p  style="text-align: center" th:utext="#{mensaje.modal.login.unsuccess}"/>
+                    <div class="col-sm-1"></div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary " style="width: 40%" data-dismiss="modal">Cerrar</button>
+            </div>
+            </p>
+            </p>
+        </div>
+    </div>
+</div>
 </body>
 <script>
 
     $(document).ready(function () {
-    if($("#modalRegisterSucces").val()!=undefined){
-    $.map(modalRegisterSucces, function (val) {
-        if (val != null) {
-            $("#modalRegisterSucces").modal("show");
-        }
-    })};
+        debugger;
+        if($("#modalRegisterSucces").val()!=undefined){
+            $.map(modalRegisterSucces, function (val) {
+                if (val != null) {
+                    $("#modalRegisterSucces").modal("show");
+                }
+            })};
 
-    if($("#modalRestartPasswordSuccess").val() !=undefined){
-        $.map(modalRestartPasswordSuccess, function (val) {
-            if (val != null) {
-                $("#modalRestartPasswordSuccess").modal("show");
-            }
-        })}
+        if($("#modalRestartPasswordSuccess").val() !=undefined){
+            $.map(modalRestartPasswordSuccess, function (val) {
+                if (val != null) {
+                    $("#modalRestartPasswordSuccess").modal("show");
+                }
+            })}
         if($("#modalSendEmailSuccess").val() !=undefined){
             $.map(modalSendEmailSuccess, function (val) {
                 if (val != null) {
                     $("#modalSendEmailSuccess").modal("show");
+                }
+            })}
+        if(window.location.href === "http://localhost:8070/login?error=true"){
+            $.map(modalLoginUnsuccess, function (val) {
+                if (val != null) {
+                    $("#modalLoginUnsuccess").modal("show");
                 }
             })}
     });

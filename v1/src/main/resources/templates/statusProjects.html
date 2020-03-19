@@ -39,10 +39,19 @@
                                                     <i class="fa fa-square" style="color:#1ab394"></i>
                                                 </div>
                                                 <div style="float:right; margin-left: 30px;">
-                                                    <span class="sparklineStatus"></span>
-                                                    <label style=" margin-left: 30px;">Actividades Restantes: </label>
-                                                    <span class="activitiesToDo" style="color: #3453B3" th:text="${projectList.finishedActivities}!=null?${projectList.totalActivities}-${projectList.finishedActivities}:${projectList.totalActivities}"></span>
-                                                    <i class="fa fa-square" style="color:#3453B3"></i>
+                                                    <div style="float: left">
+                                                        <span class="sparklineStatus"></span>
+                                                    </div>
+                                                    <div style="float: left">
+                                                        <label style=" margin-left: 30px;">Actividades Restantes: </label>
+                                                        <span class="activitiesToDo" style="color: #3453B3" th:text="${projectList.finishedActivities}!=null?${projectList.totalActivities}-${projectList.finishedActivities}:${projectList.totalActivities}"></span>
+                                                        <i class="fa fa-square" style="color:#3453B3"></i>
+                                                    </div>
+                                                    <br>
+                                                    <div style="float: left">
+                                                        <label style=" margin-left: 30px;">Cantidad de Recursos: </label>
+                                                        <span id="cantidadRecursos" th:text="${projectList.userEntitySet.size()}"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
