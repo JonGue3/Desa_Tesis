@@ -317,6 +317,22 @@ public class ProjectController {
         return modelAndView;
     }
 
+    @GetMapping("/statusProjectsBar")
+    public ModelAndView statusProjectsBar() {
+        ModelAndView modelAndView = new ModelAndView();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        UserEntity userEntity = null;
+        try {
+            userEntity = userService.getUserByUserName(currentPrincipalName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        modelAndView.addObject("projectEntityList", userEntity.getProjectEntitySet());
+        modelAndView.setViewName("statusProjectsBar");
+        return modelAndView;
+    }
+
     @GetMapping("/seeProjects")
     ModelAndView seeProjects(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
