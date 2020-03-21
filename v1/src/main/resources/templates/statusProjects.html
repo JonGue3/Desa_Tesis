@@ -25,12 +25,12 @@
                         </div>
                         <div class="ibox-content">
                             <div class="row">
-                                <ul id="listProjects" th:object="${projectEntityList}" th:name="projectEntity">
+                                <ul id="listProjects" style="text-align: center; width: 80pc;"  th:object="${projectEntityList}" th:name="projectEntity">
                                     <li class="ibox-title"  th:each="projectList : ${projectEntityList}">
                                         <div class="divProject" style="cursor: pointer">
                                             <h3 th:text="${projectList.projectName}"></h3>
-                                            <div id="divStatusProject" style="margin-bottom: 100px; padding: 20px; display: none">
-                                                <div style="float: left">
+                                            <div id="divStatusProject" style="margin-bottom: 0px; padding: 20px; display: none">
+                                                <div style="width: 15pc">
                                                     <label>Actividades Totales: </label>
                                                     <span id="totalActivities" th:text="${projectList.totalActivities}"></span>
                                                     <br>
@@ -38,7 +38,7 @@
                                                     <span id="finishedActivities" th:text="${projectList.finishedActivities}" style="color: #1ab394"></span>
                                                     <i class="fa fa-square" style="color:#1ab394"></i>
                                                 </div>
-                                                <div style="float:right; margin-left: 30px;">
+                                                <div>
                                                     <div style="float: left">
                                                         <span class="sparklineStatus"></span>
                                                     </div>
@@ -88,8 +88,11 @@
     }
 
     $(".divProject").on("click", function(e) {
+
         $('ul > li > div').children('#divStatusProject').hide()
         $(this).children('div:hidden').show();
+        //Esto es lo que quiero agregar el display inline-flex
+        //document.getElementById("divStatusProject").style.display="inline-flex";
         var finished = $(this).children('div').children('div').children('#finishedActivities').text();
         var todo = finished !== null?$(this).children('div').children('div').children('#totalActivities').text() - finished: $(this).children('div').children('div').children('#totalActivities').text();
         $(".sparklineStatus").sparkline([finished, todo], {
