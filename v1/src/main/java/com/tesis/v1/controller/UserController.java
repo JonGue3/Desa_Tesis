@@ -2,7 +2,6 @@ package com.tesis.v1.controller;
 
 import com.tesis.v1.entity.*;
 import com.tesis.v1.service.*;
-import com.tesis.v1.to.RestartPasswordDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -333,13 +332,10 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         UserEntity userEntity = null;
         TokenEntity tokenEntity = new TokenEntity();
-        RestartPasswordDto restartPasswordDto = new RestartPasswordDto();
         tokenEntity = userService.obtainTokenByUser(token);
         if (!tokenEntity.isExpired()) {
              userEntity = tokenEntity.getUserEntity();
-            restartPasswordDto.setTokenDescription(token);
             modelAndView.addObject("userEntity",userEntity);
-          //  modelAndView.addObject("restartPasswordDto", restartPasswordDto);
 
         } else {
             modelAndView.addObject("modalTokenExpired", true);

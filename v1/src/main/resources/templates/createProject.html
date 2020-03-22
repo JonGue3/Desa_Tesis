@@ -28,12 +28,12 @@
                                     <div class="form-group">
                                         <input type="number" class="form-control centerInputWidth100" placeholder="Total de Puntos" required="true" name="totalActivities">
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group"  >
                                         <!--<label class = "label-date">Fecha de Inicio</label>-->
-                                        <input type="text"
+                                        <input type="text" data-provide="datepicker-inline"
                                                data-parsley-required="true"
                                                style="cursor: pointer;text-align: center; width: 100%; background-color: white; font-size: 0.9rem; font-family: inherit"
-                                               class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left centerInputWidth100"
+                                               class="form-control col-xs-1 fa fa-calendar-o form-control-feedback left  centerInputWidth100"
                                                minlength="10"
                                                maxlength="10"
                                                th:readonly="true"
@@ -56,7 +56,7 @@
                                                id="endingDate"
                                                placeholder="Fecha Culminacion"
 
-                                               onclick="dateInput('endingDate')"
+                                               onclick="dateInputEnd('startDate','endingDate')"
 
                                         />
 
