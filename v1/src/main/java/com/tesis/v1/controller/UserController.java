@@ -16,10 +16,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -176,7 +173,16 @@ public class UserController {
         userEntity.setUserStatusEntity(userStatusEntity);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
+        Set<ProjectEntity> projectEntitySet = new HashSet<>();
+        List<ProjectEntity> projectEntityList1 = new ArrayList<>();
         try {
+            if (userEntity.getProfileEntity().getIdProfile() == 1) {
+                projectEntityList1 = projectService.findAll();
+                for (ProjectEntity projectEntity: projectEntityList1) {
+                    projectEntitySet.add(projectEntity);
+                }
+                userEntity.setProjectEntitySet(projectEntitySet);
+            }
             userService.saveUserAssignedRole(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
@@ -193,7 +199,6 @@ public class UserController {
         }
         modelAndView.addObject("modalSaveAssignRole", true);
         modelAndView.addObject("projectEntityList", projectEntityList);
-//        return loginController.getMenu(httpServletRequest);
         modelAndView.setViewName("projects");
         return modelAndView;
     }

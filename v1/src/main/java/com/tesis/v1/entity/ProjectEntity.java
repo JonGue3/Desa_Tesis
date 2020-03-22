@@ -32,10 +32,12 @@ public class ProjectEntity {
 
     @Temporal(TemporalType.DATE)
     @Column(name = "START_DATE")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date startDate;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "ENDING_DATE")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date endingDate;
 
     @JsonIgnore

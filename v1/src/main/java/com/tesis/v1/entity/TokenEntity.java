@@ -2,6 +2,7 @@ package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.context.annotation.Scope;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -23,6 +24,7 @@ public class TokenEntity {
     private String tokenDescription;
 
     @Column(name = "EXPIRY_DATE")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date expiryDate;
 
     @OneToOne

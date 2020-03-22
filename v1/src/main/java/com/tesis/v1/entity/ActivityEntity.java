@@ -2,6 +2,7 @@ package com.tesis.v1.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,9 +28,11 @@ public class ActivityEntity {
     private ActivityPointsEntity activityPointsEntity;
 
     @Column(name = "START_DATE")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date startDate;
 
     @Column(name = "ENDING_DATE")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date endingDate;
 
     @ManyToOne

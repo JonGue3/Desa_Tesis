@@ -1,5 +1,8 @@
 //Funcion que activa el calendario de inicio por Id
-function dateInput(dateId) {
+function dateInput(dateId, dateIdEnd) {
+    if ($("#" + dateIdEnd).length > 0) {
+        $("#" + dateIdEnd).datepicker('destroy');
+    }
     date = new Date();
     var year1920 = date.getFullYear() - 1920;
     var currentyear = date.getFullYear();
@@ -11,7 +14,6 @@ function dateInput(dateId) {
         changeMonth: true,
         changeYear: true,
         minDate: date
-
     });
 };
 
@@ -32,8 +34,6 @@ function dateInputEnd(dateIdStart, dateIdEnd) {
     if ($inputStart.val() == "") {
         window.ParsleyUI.addError(specificField, "startDateEmpty", 'Debe Colocar una fecha de inicio');
     } else {
-        // var clearData = $inputEnd.val();
-        // clearData = "";
         $("#" + dateIdEnd).datepicker({
             dateFormat: "dd/mm/yy",
             changeMonth: true,

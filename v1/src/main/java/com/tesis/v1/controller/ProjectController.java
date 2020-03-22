@@ -86,7 +86,6 @@ public class ProjectController {
     public ModelAndView saveProject(@ModelAttribute("projectEntity") @Valid ProjectEntity projectEntity, @RequestParam("userEntity") UserEntity userEntity,
                                     HttpServletRequest httpServletRequest) {
         Set<ProjectEntity> projectEntitySet = new HashSet<>();
-        List<ProjectEntity> projectEntityListForUser = new ArrayList<>();
         UserEntity userEntityAdmin = new UserEntity();
         ModelAndView modelAndView = new ModelAndView();
         List<UserEntity> userEntityList = new ArrayList<>();
@@ -95,8 +94,6 @@ public class ProjectController {
         List<ProjectEntity> projectEntityList = new ArrayList<>();
         List<ProjectEntity> projectEntityList1 = new ArrayList<>();
         Set<ProjectEntity> projectEntitySet2 = new HashSet<>();
-        List<ProjectEntity> projectEntityListLider = new ArrayList<>();
-        List<UserEntity> userEntityListAdmin = new ArrayList<>();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         try {
@@ -118,28 +115,10 @@ public class ProjectController {
             profileEntity = profileService.getProfileById(Long.valueOf(1));
             userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
             userEntityList = userService.getUsersByProfile(profileEntity, userStatusEntity);
-/*
-            for (int i = 0; i< userEntityList.size(); i++) {
-                userEntityList.get(i).setProjectEntitySet(projectEntitySet2);
-            }
-            userRepository.saveAll(userEntityList);
-*/
-            /*ListIterator iterator = userEntityList.listIterator();
-            while (iterator.hasNext()) {
-                UserEntity userEntityAdmin = (UserEntity) iterator.next();
-                userEntityAdmin.setProjectEntitySet(projectEntitySet2);
-                iterator.set(userEntityAdmin);
-                userRepository.saveAndFlush(userEntityAdmin);
-            }*/
             for (UserEntity userEntity1 : userEntityList) {
                 userEntity1.setProjectEntitySet(projectEntitySet2);
                 userRepository.saveAndFlush(userEntity1);
-//                userEntityListAdmin.add(userEntity1);
             }
-//            userRepository.saveAll(userEntityListAdmin);
-        } catch (ConcurrentModificationException c) {
-            c.printStackTrace();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -153,7 +132,6 @@ public class ProjectController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        return loginController.getMenu(httpServletRequest);
         modelAndView.addObject("projectEntityList", projectEntityList);
         modelAndView.addObject("modalCreateProjectSuccess", true);
         modelAndView.setViewName("projects");
@@ -215,12 +193,6 @@ public class ProjectController {
                     projectEntity.getUserEntitySet().remove(userEntity1);
                     userEntity1.getProjectEntitySet().remove(projectEntity);
                     userRepository.saveAndFlush(userEntity1);
-                    /*for (ProjectEntity projectEntity1 : userEntity1.getProjectEntitySet()) {
-                        if (projectEntity1.getIdProject() == projectEntity.getIdProject()) {
-                            userEntity1.getProjectEntitySet().remove(projectEntity1);
-                            userRepository.saveAndFlush(userEntity1);
-                        }
-                    }*/
                 }
             }
         } catch (ConcurrentModificationException c) {

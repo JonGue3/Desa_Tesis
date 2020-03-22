@@ -68,7 +68,7 @@
                                            th:readonly="true"
                                            th:name="startDate"
                                            id="startDate"
-                                           onclick="dateInput('startDate')"
+                                           onclick="dateInput('startDate', 'endingDate')"
                                            th:value="${#dates.format(activityEntity.startDate.getTime(), 'dd/MM/yyyy')}"
                                     />
                                 </div>

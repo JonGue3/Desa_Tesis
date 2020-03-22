@@ -54,4 +54,14 @@ public class ProjectService {
         }
         return projectEntity;
     }
+
+    public List<ProjectEntity> findAll() {
+        List<ProjectEntity> projectEntityList = new ArrayList<>();
+        try {
+            projectEntityList = projectRepository.findAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return projectEntityList;
+    }
 }

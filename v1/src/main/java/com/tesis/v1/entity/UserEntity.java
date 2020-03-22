@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -36,6 +37,7 @@ public class UserEntity {
     
     @Temporal(TemporalType.DATE)
     @Column(name = "BIRTHDAY")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date birthday;
 
     @ManyToOne
