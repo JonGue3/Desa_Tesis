@@ -47,9 +47,8 @@ function dateInputEnd(dateIdStart, dateIdEnd) {
 // Funcion  que   valida campos para cargar loader
 function validarLoader(idForm) {
     debugger;
-    var $form = $(idForm);
+    var $form = $('#'+idForm);
     var validarParley = $form.parsley().validate();
-
     //Condicion que valida si hay campos vacios  carga o no carga el loader
     if (validarParley) {
         loader();

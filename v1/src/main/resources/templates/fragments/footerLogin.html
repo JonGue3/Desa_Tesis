@@ -13,25 +13,9 @@
 <script th:src="@{/Parsley.js-2.8.0/dist/i18n/es.js}" src="../../Parsley.js-2.8.0/dist/i18n/es.js"></script>
 
 <script th:src="@{/js/dates.js}" src="../../js/dates.js"> </script>
+<script th:src="@{/js/waitMe.js}" src="../../js/waitMe.js"></script>
+<script th:src="@{/js/waitMe.min.js}" src="../../js/waitMe.min.js"></script>
 
-
-
-<script>
-    function inputDateAnoActual(idinputFecha) {
-        debugger;
-        date = new Date();
-        var yearBefore = new Date();
-        yearBefore.setFullYear(date.getFullYear()-1);
-        $("#"+idinputFecha).datepicker({
-            dateFormat: "dd/mm/yy",
-            yearRange: "-1:+0",
-            changeMonth: true,
-            changeYear: true,
-            minDate: yearBefore,
-            maxDate: new Date()
-        });
-    }
-</script>
 </body>
 </div>
 </html>
