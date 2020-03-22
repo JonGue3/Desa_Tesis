@@ -57,6 +57,7 @@
                         <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
                                                                       th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu == 4
                                                                       || (menuList.idMenu == 8 && transactionList.idTransaction == 2)
+                                                                      || (menuList.idMenu == 9 && transactionList.idTransaction == 2)
                                                                       || (menuList.idMenu == 6 && transactionList.idTransaction == 3)}"
                                                                       th:text=" ${menuList.description}"
                                                                       th:value="${menuList.idMenu}"></a></li>
