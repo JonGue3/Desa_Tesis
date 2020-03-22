@@ -6,61 +6,63 @@
 <div th:fragment="sideBarMenu">
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu" th:object="${session.transactionEntityList}" th:name="transactionEntity">
+            <ul class="nav metismenu" id="side-menu" th:object="${session.transactionEntityList}"
+                th:name="transactionEntity">
                 <li class="nav-header">
-                    <div class="dropdown profile-element" th:object="${userEntity}">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="block m-t-xs font-bold" th:text=" ${session.userEntity.fullName}"></span>
-                            <!--<span class="text-muted text-xs block">Art Director <b class="caret"></b></span>-->
-                        </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-                            <li><a class="dropdown-item" href="contacts.html">Contacts</a></li>
-                            <li><a class="dropdown-item" href="mailbox.html">Mailbox</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="login.html">Logout</a></li>
-                        </ul>
+                    <div>
+                        <img class="profileImg" th:src="@{/img/profile1.png}">
                     </div>
-                    <div class="logo-element">
-                        IN+
+                    <div class="dropdown profile-element" th:object="${userEntity}">
+                        <span class="block m-t-xs font-bold" style="text-align: center;color: white"
+                              th:text=" ${session.userEntity.fullName}"></span>
+                        </a>
                     </div>
                 </li>
                 <li class="active" th:each="transactionList : ${session.transactionEntityList}">
                     <!-- Admin-->
-                    <a th:if="${session.userEntity.profileEntity.idProfile ==1}" href="#"><i class="fa fa-th-large"></i> <span
-                            class="nav-label" th:text=" ${transactionList.description}"></span> <span
-                            class="fa arrow"></span></a>
+                    <a th:if="${session.userEntity.profileEntity.idProfile ==1}" href="#"><i class="fa fa-th-large"></i>
+                        <span
+                                class="nav-label" th:text=" ${transactionList.description}"></span> <span
+                                class="fa arrow"></span></a>
                     <!-- Leader-->
-                    <a th:if="${session.userEntity.profileEntity.idProfile ==2}" href="#"><i class="fa fa-th-large"></i> <span
-                            class="nav-label" th:text="${transactionList.description}"></span> <span
-                            class="fa arrow"></span></a>
+                    <a th:if="${session.userEntity.profileEntity.idProfile ==2}" href="#"><i class="fa fa-th-large"></i>
+                        <span
+                                class="nav-label" th:text="${transactionList.description}"></span> <span
+                                class="fa arrow"></span></a>
                     <!-- resource-->
-                    <a th:if="${session.userEntity.profileEntity.idProfile ==3}" href="#"><i class="fa fa-th-large"></i> <span
-                            class="nav-label" th:text="${transactionList.description}"></span> <span
-                            class="fa arrow"></span></a>
+                    <a th:if="${session.userEntity.profileEntity.idProfile ==3}" href="#"><i class="fa fa-th-large"></i>
+                        <span
+                                class="nav-label" th:text="${transactionList.description}"></span> <span
+                                class="fa arrow"></span></a>
                     <!-- Admin-->
-                    <ul th:if="${session.userEntity.profileEntity.idProfile ==1}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
-                                                                      th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu != 8}"
-                                                                      th:text=" ${menuList.description}"
-                                                                      th:value="${menuList.idMenu}"></a></li>
+                    <ul th:if="${session.userEntity.profileEntity.idProfile ==1}" class="nav nav-second-level"
+                        th:object="${session.menuEntityList}" th:name="menuEntity">
+                        <li th:each="menuList : ${session.menuEntityList}"><a
+                                th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
+                                th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu != 8}"
+                                th:text=" ${menuList.description}"
+                                th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- Leader-->
-                    <ul th:if="${session.userEntity.profileEntity.idProfile ==2}" class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
-                                                                      th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu != 8}"
-                                                                      th:text=" ${menuList.description}"
-                                                                      th:value="${menuList.idMenu}"></a></li>
+                    <ul th:if="${session.userEntity.profileEntity.idProfile ==2}" class="nav nav-second-level"
+                        th:object="${session.menuEntityList}" th:name="menuEntity">
+                        <li th:each="menuList : ${session.menuEntityList}"><a
+                                th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
+                                th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu != 8}"
+                                th:text=" ${menuList.description}"
+                                th:value="${menuList.idMenu}"></a></li>
                     </ul>
                     <!-- resource-->
-                    <ul th:if="${session.userEntity.profileEntity.idProfile ==3}"  class="nav nav-second-level" th:object="${session.menuEntityList}" th:name="menuEntity">
-                        <li th:each="menuList : ${session.menuEntityList}"><a th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
-                                                                      th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu == 4
+                    <ul th:if="${session.userEntity.profileEntity.idProfile ==3}" class="nav nav-second-level"
+                        th:object="${session.menuEntityList}" th:name="menuEntity">
+                        <li th:each="menuList : ${session.menuEntityList}"><a
+                                th:href="${@environment.getProperty('server.context-path')}+'/'+${menuList.menuUrl}"
+                                th:if="${menuList.transactionEntity.idTransaction == transactionList.idTransaction && menuList.idMenu == 4
                                                                       || (menuList.idMenu == 8 && transactionList.idTransaction == 2)
                                                                       || (menuList.idMenu == 9 && transactionList.idTransaction == 2)
                                                                       || (menuList.idMenu == 6 && transactionList.idTransaction == 3)}"
-                                                                      th:text=" ${menuList.description}"
-                                                                      th:value="${menuList.idMenu}"></a></li>
+                                th:text=" ${menuList.description}"
+                                th:value="${menuList.idMenu}"></a></li>
                     </ul>
                 </li>
                 <!--<li>

@@ -97,3 +97,9 @@ input.parsley-error {
     text-align: left;
     width: 19pc;
 }
+.profileImg{
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
