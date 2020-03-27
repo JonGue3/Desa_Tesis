@@ -279,11 +279,18 @@ public class ProjectController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         UserEntity userEntity = null;
+        UserStatusEntity userStatusEntity = null;
+        ProfileEntity profileEntity = null;
+        List<UserEntity> userEntityAdminList = new ArrayList<>();
         try {
             userEntity = userService.getUserByUserName(currentPrincipalName);
+            userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
+            profileEntity = profileService.getProfileById(Long.valueOf(1));
+            userEntityAdminList = userService.getUsersByProfile(profileEntity, userStatusEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        modelAndView.addObject("userEntityAdminList", userEntityAdminList);
         modelAndView.addObject("projectEntityList", userEntity.getProjectEntitySet());
         modelAndView.setViewName("statusProjects");
         return modelAndView;
@@ -295,11 +302,18 @@ public class ProjectController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         UserEntity userEntity = null;
+        UserStatusEntity userStatusEntity = null;
+        ProfileEntity profileEntity = null;
+        List<UserEntity> userEntityAdminList = new ArrayList<>();
         try {
             userEntity = userService.getUserByUserName(currentPrincipalName);
+            userStatusEntity = userStatusService.getUserStatusByIdUserStatus(Long.valueOf(1));
+            profileEntity = profileService.getProfileById(Long.valueOf(1));
+            userEntityAdminList = userService.getUsersByProfile(profileEntity, userStatusEntity);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        modelAndView.addObject("userEntityAdminList", userEntityAdminList);
         modelAndView.addObject("projectEntityList", userEntity.getProjectEntitySet());
         modelAndView.setViewName("statusProjectsBar");
         return modelAndView;

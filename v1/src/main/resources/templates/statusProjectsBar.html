@@ -52,7 +52,7 @@
                                                         <br>
                                                         <div style="float: left">
                                                             <label style=" margin-left: 30px;">Cantidad de Recursos: </label>
-                                                            <span id="cantidadRecursos" th:text="${projectList.userEntitySet.size()}"></span>
+                                                            <span id="cantidadRecursos" th:text="${projectList.userEntitySet.size()}-${userEntityAdminList.size()}"></span>
                                                         </div>
                                                     </div>
                                                 </div>
