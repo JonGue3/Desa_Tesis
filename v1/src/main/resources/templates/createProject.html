@@ -51,7 +51,7 @@
                                                th:readonly="true"
                                                th:name="endingDate"
                                                id="endingDate"
-                                               placeholder="Fecha Culminacion"
+                                               placeholder="Fecha Culminación"
 
                                                onclick="dateInputEnd('startDate','endingDate')"
 
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="form-group">
                                         <select  class="form-control centerSelectInputWidth100"  th:object="${userEntityList}" th:name="userEntity" required="true" >
-                                            <option value="">Seleccione el Lider a asignar</option>
+                                            <option value="">Seleccione el Líder a asignar</option>
                                             <option th:each="userList : ${userEntityList}"
                                                     th:text=" ${userList.fullName}"
                                                     th:value="${userList.idUser}">

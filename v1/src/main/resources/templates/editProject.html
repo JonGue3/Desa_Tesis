@@ -52,7 +52,7 @@
                                     />
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Fecha de Culminacion</label>
+                                    <label class = "label-date">Fecha de Culminación</label>
                                     <p/>
                                     <!--<input type="date" class="form-control"  th:value="${#dates.format(projectEntity.endingDate.getTime(), 'dd/MM/yyyy')}" required="true" name="endingDate">-->
                                     <input type="text"
@@ -71,10 +71,10 @@
                                 </div>
                                 <div class="form-group">
                                     <div id="divLiderActual">
-                                        <label class = "label-date">Lider Actual</label>
+                                        <label class = "label-date">Líder Actual</label>
                                         <div id="selectLiderActual">
                                             <select  class="form-control" th:name="lideres" id="lideres" style="width: 95%; float: left; text-align-last:center" required="true" >
-                                                <option value="0">Lideres asignados</option>
+                                                <option value="0">Líderes asignados</option>
                                                 <option th:each="userList : ${projectEntity.userEntitySet}" th:if="${userList.profileEntity.idProfile == 2} "
                                                         th:text=" ${userList.fullName}"
                                                         th:value="${userList.idUser}"
@@ -87,9 +87,9 @@
                                     <span class="fa fa-trash fa-2x" id="deleteIcon" style="cursor: pointer; float: left; margin: 5px;"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label class = "label-date">Lider a Agregar</label>
+                                    <label class = "label-date">Líder a Agregar</label>
                                     <select id="liderAgregar" class="form-control" style="text-align-last:center"  th:object="${userEntityList}" th:name="userEntity" required="false" >
-                                        <option value="0">Seleccione el Lider a agregar</option>
+                                        <option value="0">Seleccione el Líder a agregar</option>
                                         <option th:each="userList : ${userEntityList}"
                                                 th:text=" ${userList.fullName}"
                                                 th:value="${userList.idUser}">
