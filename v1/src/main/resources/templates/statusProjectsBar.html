@@ -32,11 +32,11 @@
                                             <div style="display: flex; justify-content: center">
                                                 <div id="divStatusProject" style="margin-bottom: 0px; padding: 20px; display: none;">
                                                     <div style="width: 15pc; float: left;">
-                                                        <label>Actividades Totales: </label>
+                                                        <label>Puntos Totales: </label>
                                                         <span id="totalActivities" th:text="${projectList.totalActivities}" style="color:#CC9900 "></span>
                                                         <i class="fa fa-square" style="color:#CC9900 "></i>
                                                         <br>
-                                                        <label>Actividades Finalizadas: </label>
+                                                        <label>Puntos Finalizados: </label>
                                                         <span id="finishedActivities" th:text="${projectList.finishedActivities}" style="color: #228B22"></span>
                                                         <i class="fa fa-square" style="color:#228B22"></i>
                                                     </div>
@@ -45,7 +45,7 @@
                                                             <span class="sparklineStatus"></span>
                                                         </div>
                                                         <div style="float: left">
-                                                            <label style=" margin-left: 30px;">Actividades Restantes: </label>
+                                                            <label style=" margin-left: 30px;">Puntos Restantes: </label>
                                                             <span class="activitiesToDo" style="color: #3366CC" th:text="${projectList.finishedActivities}!=null?${projectList.totalActivities}-${projectList.finishedActivities}:${projectList.totalActivities}"></span>
                                                             <i class="fa fa-square" style="color:#3366CC"></i>
                                                         </div>
