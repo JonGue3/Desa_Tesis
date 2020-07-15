@@ -17,6 +17,24 @@ function dateInput(dateId, dateIdEnd) {
     });
 };
 
+//Funcion que activa el calendario de register y que no sobrepase la fecha actual
+function dateRegister(dateId) {
+    minDate = new Date();
+    maxDate = new Date();
+    var year1920 = minDate.getFullYear() - 1920;
+    var currentyear = minDate.getFullYear();
+    minDate.setDate(minDate.getDate());
+    minDate.setMonth(0);
+    minDate.setFullYear(currentyear - year1920);
+    $("#" + dateId).datepicker({
+        dateFormat: "dd/mm/yy",
+        changeMonth: true,
+        changeYear: true,
+        minDate: minDate,
+        maxDate: maxDate
+    });
+};
+
 
 //Funcion que activa el calendario  de fin por Id
 function dateInputEnd(dateIdStart, dateIdEnd) {
